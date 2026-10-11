@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>韓国語初級完成編２</title>
+
+<meta name="theme-color" content="#1c1e3d">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="韓国語初級完成編２">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="icon-192.png">
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function (reg) {
+    reg.update();
+  }).catch(function (e) {
+    console.warn('service worker登録失敗', e);
+  });
+}
+</script>
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Noto+Serif+JP:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg-deep:#12132a;
+  --bg-deep2:#1c1e3d;
+  --gold:#cda349;
+  --gold-light:#f0d68a;
+  --parchment:#f6ecd6;
+  --parchment-dark:#e9dcb8;
+  --ink:#2c2214;
+  --ink-soft:#5b4c33;
+  --ok:#3f7a52;
+  --ok-light:#e4f2e6;
+  --ng:#a4423a;
+  --ng-light:#f7e3e0;
+  --line:#c9a35a55;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(circle at 20% 0%, #2a2c55 0%, transparent 45%),
+    radial-gradient(circle at 85% 15%, #341d3f 0%, transparent 40%),
+    linear-gradient(180deg,var(--bg-deep) 0%, var(--bg-deep2) 100%);
+  min-height:100vh;
+  font-family:'Noto Sans JP', sans-serif;
+  color:var(--ink);
+  padding-bottom:60px;
+  transition:background 1.1s ease;
+}
+#levelFlash{
+  position:fixed;inset:0;pointer-events:none;z-index:90;opacity:0;
+  background:radial-gradient(circle at 50% 30%, #fff6d6cc 0%, #f0d68a55 30%, transparent 70%);
+}
+#levelFlash.burst{animation:flashBurst 1s ease-out;}
+@keyframes flashBurst{0%{opacity:0;}15%{opacity:1;}100%{opacity:0;}}
+.wrap{max-width:760px;margin:0 auto;padding:14px 12px 40px;}
+
+/* ---------- Header / status bar ---------- */
+.gamehead{
+  border-radius:18px;
+  padding:18px 16px 16px;
+  position:relative;
+  overflow:hidden;
+  border:1px solid #ffffff22;
+  box-shadow:0 10px 30px #00000055, inset 0 1px 0 #ffffff18;
+  margin-bottom:14px;
+}
+.title-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.game-title{
+  font-family:'Cinzel',serif;
+  color:var(--gold-light);
+  font-size:1.05rem;
+  letter-spacing:.06em;
+  margin:0;
+  text-shadow:0 2px 8px #000a;
+}
+.game-sub{color:#cfcbe8;font-size:.68rem;letter-spacing:.05em;margin:2px 0 0;}
+
+.levelcard{
+  margin-top:12px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:linear-gradient(135deg,#00000030,#ffffff08);
+  border:1px solid #ffffff20;
+  border-radius:14px;
+  padding:12px;
+}
+.badge{
+  flex:0 0 auto;
+  width:64px;height:64px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:30px;
+  border:2px solid #fff5;
+  box-shadow:0 0 0 4px #00000030, 0 6px 18px #0007;
+}
+.lvinfo{flex:1;min-width:0;}
+.lvname-row{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+.lvnum{
+  font-family:'Cinzel',serif;font-weight:700;color:var(--gold-light);
+  font-size:.72rem; letter-spacing:.05em;
+}
+.lvname{
+  font-family:'Noto Serif JP',serif;
+  font-weight:900;
+  color:#fff;
+  font-size:1.28rem;
+  text-shadow:0 2px 6px #000a;
+  line-height:1.15;
+}
+.xpbar-outer{
+  margin-top:8px;height:12px;border-radius:8px;overflow:hidden;
+  background:#00000055;border:1px solid #ffffff22;
+}
+.xpbar-inner{
+  height:100%;border-radius:8px;
+  background:linear-gradient(90deg,#e8c15a,#fff3c4,#e8c15a);
+  transition:width .5s ease;
+}
+.xptext{margin-top:5px;color:#d9d5f2;font-size:.68rem;display:flex;justify-content:space-between;}
+
+/* level tier color themes */
+.tier-1 .badge{background:radial-gradient(circle at 30% 30%,#8a9a7c,#4d5a41);}
+.tier-2 .badge{background:radial-gradient(circle at 30% 30%,#7d97b0,#3c5470);}
+.tier-3 .badge{background:radial-gradient(circle at 30% 30%,#a08b5f,#6b562c);}
+.tier-4 .badge{background:radial-gradient(circle at 30% 30%,#b98fce,#6a4084);}
+.tier-5 .badge{background:radial-gradient(circle at 30% 30%,#e0965a,#a5501c);}
+.tier-6 .badge{background:radial-gradient(circle at 30% 30%,#e8557a,#951f3f);}
+.tier-7 .badge{background:radial-gradient(circle at 30% 30%,#f0d060,#c9922a);box-shadow:0 0 0 4px #00000030,0 0 22px 4px #ffd35f88;}
+.tier-8 .badge{background:radial-gradient(circle at 30% 30%,#7ff0e6,#26b7c9,#7d3fd6);box-shadow:0 0 0 4px #00000030,0 0 26px 6px #7ff0e6aa;animation:pulseGlow 2.2s infinite;}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 4px #00000030,0 0 18px 4px #7ff0e6aa;}50%{box-shadow:0 0 0 4px #00000030,0 0 34px 10px #ffd35fcc;}}
+
+/* ---------- Session list toggle ---------- */
+.togglebar{
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(135deg,#26264a,#1c1c38);
+  border:1px solid #ffffff20;
+  border-radius:14px;
+  padding:12px 14px;
+  cursor:pointer;
+  margin-bottom:10px;
+  user-select:none;
+}
+.togglebar:active{transform:scale(.99);}
+.togglebar .lbl{color:#f1e9c8;font-weight:700;font-family:'Noto Serif JP',serif;font-size:.92rem;display:flex;align-items:center;gap:8px;}
+.togglebar .cnt{color:#b9b3de;font-size:.72rem;}
+.arrow{transition:transform .25s;color:var(--gold-light);}
+.arrow.open{transform:rotate(180deg);}
+
+#sessionPanel{display:none;margin-bottom:14px;}
+#sessionPanel.open{display:block;}
+.overall-progress{
+  background:#00000040;border:1px solid #ffffff18;border-radius:12px;
+  padding:10px 12px;margin-bottom:10px;color:#e7e3fb;font-size:.78rem;
+}
+.overall-progress b{color:var(--gold-light);}
+.overall-bar-outer{height:8px;border-radius:6px;background:#00000060;margin-top:6px;overflow:hidden;}
+.overall-bar-inner{height:100%;background:linear-gradient(90deg,#5fbf7a,#8fe0a3);}
+
+.sess-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;}
+.sess-tile{
+  border-radius:12px;padding:10px 10px;cursor:pointer;
+  border:1px solid #ffffff25;
+  text-align:left;
+  transition:transform .15s;
+  position:relative;
+}
+.sess-tile:active{transform:scale(.96);}
+.sess-tile .snum{font-size:.62rem;color:#ffffffaa;font-family:'Cinzel',serif;letter-spacing:.04em;}
+.sess-tile .stitle{font-size:.76rem;font-weight:700;line-height:1.3;margin-top:2px;color:#fff;}
+.sess-tile .sfrac{font-size:.68rem;margin-top:6px;color:#ffffffcc;}
+.sess-tile.st-untouched{background:linear-gradient(135deg,#33345c,#26274a);}
+.sess-tile.st-progress{background:linear-gradient(135deg,#8a6a1f,#5c4712);}
+.sess-tile.st-perfect{background:linear-gradient(135deg,#2a7a48,#1c5533);box-shadow:0 0 14px #3fbf6f55;}
+.sess-tile.active{outline:2px solid var(--gold-light);}
+.sess-tile.sess-tile-review{
+  background:linear-gradient(135deg,#8a5a1f,#5c3a12);
+  border:1px solid #f0d68a88;
+  box-shadow:0 0 14px #f0d68a33;
+}
+.sess-tile.sess-tile-review .snum{color:#ffe6a3;}
+
+.resetall-btn{
+  margin-top:12px;width:100%;padding:10px;border-radius:10px;border:1px solid #a4423a88;
+  background:#3a1717;color:#f2b8b0;font-weight:700;font-size:.78rem;cursor:pointer;
+}
+
+/* ---------- Session main view ---------- */
+.session-view{
+  background:var(--parchment);
+  border-radius:18px;
+  padding:16px 14px 20px;
+  box-shadow:0 12px 30px #00000060;
+  border:1px solid #00000015;
+  position:relative;
+}
+.session-view::before{
+  content:"";position:absolute;inset:0;border-radius:18px;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 38px,#00000006 39px);
+}
+.sess-header{position:relative;}
+.sess-eyebrow{font-size:.68rem;color:var(--ink-soft);font-family:'Cinzel',serif;letter-spacing:.08em;}
+.sess-title{
+  font-family:'Noto Serif JP',serif;font-weight:900;font-size:1.25rem;color:var(--ink);
+  margin:2px 0 6px;
+}
+.sess-instruction{
+  font-size:.86rem;color:var(--ink-soft);line-height:1.6;background:#ffffff70;
+  border-left:4px solid var(--gold);padding:8px 10px;border-radius:6px;margin-bottom:8px;
+}
+.sess-hint{
+  font-size:.78rem;color:var(--ink);background:#fff9e8;border:1px dashed #cda34988;
+  border-radius:8px;padding:8px 10px;margin-bottom:8px;
+}
+.sess-hint b{color:#8a6a1f;}
+.sess-example{
+  font-size:.8rem;color:var(--ink-soft);margin-bottom:14px;
+  background:#eee6cd;border-radius:8px;padding:8px 10px;
+}
+.sess-example .ex-label{font-weight:700;color:#8a6a1f;margin-right:6px;}
+
+.gradebtn{
+  display:block;width:100%;padding:11px;border-radius:12px;border:none;
+  background:linear-gradient(135deg,#c9a24b,#a97f2c);
+  color:#2c2214;font-weight:900;font-family:'Noto Serif JP',serif;font-size:.88rem;
+  cursor:pointer;margin:10px 0;box-shadow:0 4px 10px #00000030;
+}
+.gradebtn:active{transform:scale(.98);}
+.resetbtn{
+  display:block;width:100%;padding:9px;border-radius:10px;border:1px solid #a4423a55;
+  background:#fceeec;color:#a4423a;font-weight:700;font-size:.78rem;cursor:pointer;margin-bottom:6px;
+}
+
+.qitem{
+  border-top:1px solid var(--line);
+  padding:14px 2px;
+}
+.qitem:first-of-type{border-top:none;}
+.qnum{
+  font-family:'Cinzel',serif;font-weight:700;color:#a97f2c;font-size:.72rem;letter-spacing:.05em;
+}
+.qtext{font-size:.98rem;font-weight:600;color:var(--ink);margin:4px 0 8px;line-height:1.5;}
+.qtext .sub{display:inline-block;color:#8a7550;font-size:.82rem;}
+.input-row{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+.speaker-tag{
+  flex:0 0 auto;font-weight:800;color:#8a6a1f;font-size:.9rem;
+  background:#fff3cf;border:1px solid #cda34966;border-radius:8px;padding:8px 9px;
+  white-space:nowrap;
+}
+.ans-input{
+  width:100%;padding:9px 10px;border-radius:8px;border:1px solid #cda34988;
+  background:#fffdf5;font-size:.92rem;color:var(--ink);font-family:inherit;
+}
+.input-row .ans-input{margin-bottom:0;flex:1 1 auto;min-width:0;}
+.ans-input:focus{outline:2px solid var(--gold);}
+.btnrow{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.smallbtn{
+  padding:7px 12px;border-radius:20px;border:1px solid #00000022;
+  background:#fff;color:var(--ink);font-size:.76rem;font-weight:700;cursor:pointer;
+}
+.smallbtn.show{background:#3a3560;color:#fff;border-color:#3a3560;}
+.checkbtn{
+  padding:8px 16px;border-radius:20px;border:none;
+  background:linear-gradient(135deg,#3a3560,#2a2748);
+  color:#fff;font-weight:800;font-size:.8rem;cursor:pointer;
+  box-shadow:0 3px 8px #00000030;
+}
+.checkbtn:active{transform:scale(.96);}
+.flagbtn{
+  padding:7px 12px;border-radius:20px;border:1px solid #cda34988;
+  background:#fff9e8;color:#8a6a1f;font-size:.76rem;font-weight:700;cursor:pointer;
+}
+.flagbtn.active{background:#e8c15a;color:#3a2c0a;border-color:#a97f2c;}
+.flagbtn.revert{background:#e6e0cc;color:var(--ink);border-color:#00000022;}
+.origin-label{
+  display:inline-block;font-size:.68rem;font-weight:700;color:#8a6a1f;
+  background:#fff3cf;border-radius:6px;padding:3px 8px;margin-bottom:6px;
+}
+.qitem.judged-ok{background:linear-gradient(90deg,#e4f2e6cc,transparent 60%);border-radius:10px;}
+.qitem.judged-ng{background:linear-gradient(90deg,#f7e3e0cc,transparent 60%);border-radius:10px;}
+.judge-pop{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:30px;height:30px;border-radius:50%;font-weight:900;font-size:.95rem;
+  margin-left:6px;vertical-align:middle;color:#fff;
+}
+.judge-pop.ok{background:var(--ok);animation:popIn .35s cubic-bezier(.3,1.7,.4,1);}
+.judge-pop.ng{background:var(--ng);animation:popIn .35s cubic-bezier(.3,1.7,.4,1);}
+@keyframes popIn{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
+
+.answerbox{
+  display:none;margin-top:10px;padding:10px 12px;border-radius:10px;
+  background:var(--ok-light);border:1px solid #3f7a5240;
+}
+.answerbox.shown{display:block;}
+.ans-kr-row{display:flex;align-items:center;gap:8px;}
+.answerbox .ans-kr{font-weight:800;color:#245332;font-size:.96rem;flex:1 1 auto;}
+.answerbox .ans-jp{color:#3a5a44;font-size:.82rem;margin-top:4px;}
+.speakbtn{
+  flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:1px solid #3f7a5255;
+  background:#fff;color:#245332;font-size:1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px #00000020;
+}
+.speakbtn:active{transform:scale(.92);background:#e4f2e6;}
+.speakbtn.small{width:26px;height:26px;font-size:.82rem;vertical-align:middle;margin-left:2px;}
+
+.statuschip{display:inline-block;padding:3px 9px;border-radius:20px;font-size:.68rem;font-weight:800;margin-left:6px;vertical-align:middle;}
+.statuschip.ok{background:var(--ok);color:#fff;}
+.statuschip.ng{background:var(--ng);color:#fff;}
+
+.empty-state{color:#cfcbe8;text-align:center;padding:50px 10px;font-size:.9rem;line-height:1.8;}
+.empty-state .big{font-size:2rem;display:block;margin-bottom:10px;}
+
+/* ---------- Modal ---------- */
+.modal-overlay{
+  position:fixed;inset:0;background:#000000b0;display:none;align-items:center;justify-content:center;
+  z-index:100;padding:20px;
+}
+.modal-overlay.open{display:flex;}
+.modal-box{
+  background:var(--parchment);border-radius:16px;padding:22px 18px;max-width:340px;width:100%;
+  text-align:center;box-shadow:0 20px 50px #000a;
+}
+.modal-box p{color:var(--ink-soft);font-size:.88rem;line-height:1.6;margin:10px 0 18px;}
+.modal-box h3{font-family:'Noto Serif JP',serif;color:var(--ink);margin:0;font-size:1.05rem;}
+.modal-btns{display:flex;gap:10px;}
+.modal-btns button{flex:1;padding:11px;border-radius:10px;border:none;font-weight:800;font-size:.85rem;cursor:pointer;}
+.mbtn-cancel{background:#e6e0cc;color:var(--ink);}
+.mbtn-danger{background:var(--ng);color:#fff;}
+
+/* Stamp modal */
+.stamp-wrap{display:flex;flex-direction:column;align-items:center;}
+.stamp-circle{
+  width:150px;height:150px;border-radius:50%;
+  border:6px solid var(--ng);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:var(--ng);transform:rotate(-8deg);
+  font-family:'Cinzel',serif;
+  margin:6px 0 16px;
+  box-shadow:0 0 0 4px #fff, 0 0 0 5px var(--ng);
+  animation:stampIn .35s cubic-bezier(.2,1.6,.4,1);
+}
+@keyframes stampIn{from{transform:rotate(-8deg) scale(2.2);opacity:0;}to{transform:rotate(-8deg) scale(1);opacity:1;}}
+.stamp-circle .sc-score{font-size:2.1rem;font-weight:900;line-height:1;}
+.stamp-circle .sc-label{font-size:.62rem;letter-spacing:.1em;margin-top:4px;}
+.stamp-sub{color:var(--ink-soft);font-size:.82rem;margin-bottom:14px;}
+.closebtn{padding:10px 24px;border-radius:10px;border:none;background:#3a3560;color:#fff;font-weight:700;cursor:pointer;}
+
+.transfer-box{max-width:420px;text-align:left;}
+.transfer-box h3{font-family:'Noto Serif JP',serif;color:var(--ink);}
+.transfer-box>p{color:var(--ink-soft);font-size:.82rem;line-height:1.6;}
+.transfer-sec{border-top:1px solid #00000018;margin-top:14px;padding-top:14px;}
+.transfer-sec-title{font-weight:800;color:var(--ink);font-size:.9rem;margin-bottom:4px;}
+.transfer-note{color:var(--ink-soft);font-size:.76rem;line-height:1.6;margin-bottom:8px;}
+.passcode-box{
+  font-family:'Courier New',monospace;font-size:.8rem;line-height:1.5;
+  background:#fffdf5;border:1px dashed #cda34988;border-radius:8px;
+  padding:10px;word-break:break-all;color:#5b4c33;margin-bottom:8px;min-height:40px;
+}
+.passcode-input{
+  width:100%;min-height:70px;border-radius:8px;border:1px solid #cda34988;
+  background:#fffdf5;font-family:'Courier New',monospace;font-size:.8rem;
+  padding:9px 10px;color:var(--ink);margin-bottom:8px;resize:vertical;
+}
+.transfer-error{color:var(--ng);font-size:.78rem;margin-bottom:8px;display:none;}
+
+/* Level-up modal */
+.lvup-box{
+  background:linear-gradient(160deg,#2a2748,#171531);
+  border-radius:18px;padding:28px 20px;max-width:340px;width:100%;text-align:center;
+  border:1px solid #f0d68a55;box-shadow:0 20px 60px #000c, 0 0 40px #f0d68a30;
+}
+.lvup-icon{font-size:3.4rem;line-height:1;margin-bottom:6px;animation:lvupPop .5s cubic-bezier(.3,1.7,.4,1);}
+@keyframes lvupPop{from{transform:scale(0) rotate(-15deg);opacity:0;}to{transform:scale(1) rotate(0);opacity:1;}}
+.lvup-title{font-family:'Cinzel',serif;color:var(--gold-light);font-weight:900;font-size:1.3rem;letter-spacing:.06em;text-shadow:0 2px 10px #000a;margin:4px 0 14px;}
+.lvup-change{color:#fff;font-family:'Noto Serif JP',serif;font-size:1.02rem;line-height:1.8;margin-bottom:20px;}
+.lvup-change .arrow-jump{color:var(--gold-light);font-weight:900;margin:0 6px;}
+.lvup-change .from{color:#b9b3de;}
+.lvup-change .to{color:#fff;font-weight:900;font-size:1.2rem;}
+.lvup-closebtn{padding:11px 30px;border-radius:12px;border:none;background:linear-gradient(135deg,#c9a24b,#a97f2c);color:#2c2214;font-weight:900;cursor:pointer;font-size:.9rem;}
+
+.footer-note{text-align:center;color:#8f8ac0;font-size:.68rem;margin-top:24px;line-height:1.7;}
+
+@media (max-width:420px){
+  .badge{width:54px;height:54px;font-size:24px;}
+  .lvname{font-size:1.1rem;}
+  .sess-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));}
+}
+</style>
+</head>
+<body>
+<div id="levelFlash"></div>
+<div class="wrap">
+
+  <div class="gamehead tier-1" id="gamehead">
+    <div class="title-row">
+      <p class="game-title">韓国語クエスト</p>
+      <p class="game-sub">初級完成編２・練習問題</p>
+    </div>
+    <div class="levelcard">
+      <div class="badge" id="badgeIcon">🏘️</div>
+      <div class="lvinfo">
+        <div class="lvname-row">
+          <span class="lvnum" id="lvNum">Lv.1</span>
+        </div>
+        <div class="lvname" id="lvName">村人</div>
+        <div class="xpbar-outer"><div class="xpbar-inner" id="xpBar" style="width:0%"></div></div>
+        <div class="xptext"><span id="xpText">正解 0問</span><span id="xpNext">次のレベルまで —</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="togglebar" id="toggleBar">
+    <span class="lbl">🗺️ セッション一覧（冒険マップ）</span>
+    <span class="cnt" id="toggleCnt">0 / 0 問正解</span>
+    <span class="arrow" id="arrowIcon">▾</span>
+  </div>
+
+  <div class="togglebar" id="transferBar" style="margin-bottom:14px;">
+    <span class="lbl">🔄 データの引き継ぎ（他の端末へ）</span>
+    <span class="arrow">▸</span>
+  </div>
+
+  <div id="sessionPanel">
+    <div class="overall-progress">
+      全体の進捗：<b id="overallFrac">0 / 0 問</b> 正解
+      <div class="overall-bar-outer"><div class="overall-bar-inner" id="overallBar" style="width:0%"></div></div>
+    </div>
+    <div class="sess-grid" id="sessGrid"></div>
+    <button class="resetall-btn" id="resetAllBtn">⚠️ 全体の記録をリセットする</button>
+  </div>
+
+  <div class="session-view" id="sessionView">
+    <div class="empty-state">
+      <span class="big">📜</span>
+      上の「セッション一覧」からクエストを選んでください。
+    </div>
+  </div>
+
+  <div class="footer-note">記録は自動的に保存されます。閉じてもまた続きから再開できます。</div>
+</div>
+
+<!-- confirm modal -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-box">
+    <h3 id="confirmTitle">本当にリセットしますか？</h3>
+    <p id="confirmText">この操作を行うと、記録は元に戻せません。</p>
+    <div class="modal-btns">
+      <button class="mbtn-cancel" id="confirmCancel">キャンセル</button>
+      <button class="mbtn-danger" id="confirmOk">リセットする</button>
+    </div>
+  </div>
+</div>
+
+<!-- data transfer modal -->
+<div class="modal-overlay" id="transferModal">
+  <div class="modal-box transfer-box">
+    <h3>🔄 データの引き継ぎ</h3>
+    <p style="margin-top:6px;">今の記録を他の端末に移したり、他の端末の記録をこの端末に反映したりできます。どちらもインターネット接続は不要です。</p>
+
+    <div class="transfer-sec">
+      <div class="transfer-sec-title">① ファイルで引き継ぐ（一番確実）</div>
+      <p class="transfer-note">記録をファイルに書き出し、そのファイルをメールやチャット、クラウドストレージなどで別の端末に送って読み込みます。</p>
+      <button class="gradebtn" id="exportFileBtn">📤 記録をファイルに書き出す</button>
+      <button class="gradebtn" id="importFileBtn" style="background:linear-gradient(135deg,#3a3560,#2a2748);color:#fff;">📥 ファイルから記録を読み込む</button>
+      <input type="file" id="importFileInput" accept="application/json,.json" style="display:none;">
+    </div>
+
+    <div class="transfer-sec">
+      <div class="transfer-sec-title">② 復活の呪文で引き継ぐ</div>
+      <p class="transfer-note">下のコードをコピーして、別の端末のこの画面に貼り付ければ、記録を再現できます（ドラクエの「ふっかつのじゅもん」のようなものです）。</p>
+      <div class="passcode-box" id="passcodeBox">KQ1-...</div>
+      <button class="checkbtn" id="copyPasscodeBtn" style="width:100%;margin-bottom:10px;">📋 呪文をコピーする</button>
+      <textarea class="passcode-input" id="passcodeInput" placeholder="ここに、別の端末で表示された呪文を貼り付けてください"></textarea>
+      <div class="transfer-error" id="passcodeError"></div>
+      <button class="gradebtn" id="applyPasscodeBtn">✨ この呪文を反映する</button>
+    </div>
+
+    <button class="closebtn" id="transferClose" style="width:100%;margin-top:6px;">閉じる</button>
+  </div>
+</div>
+
+<!-- stamp modal -->
+<div class="modal-overlay" id="stampModal">
+  <div class="modal-box">
+    <h3 id="stampTitle">採点結果</h3>
+    <div class="stamp-wrap">
+      <div class="stamp-circle" id="stampCircle">
+        <div class="sc-score" id="stampScore">0点</div>
+        <div class="sc-label">SCORE</div>
+      </div>
+      <div class="stamp-sub" id="stampSub">0 / 0 問正解</div>
+      <button class="closebtn" id="stampClose">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<!-- level up modal -->
+<div class="modal-overlay" id="levelupModal">
+  <div class="lvup-box">
+    <div class="lvup-icon" id="lvupIcon">🎉</div>
+    <div class="lvup-title">レベルアップ！</div>
+    <div class="lvup-change">
+      <span class="from" id="lvupFrom">村人</span>
+      <span class="arrow-jump">→</span><br>
+      <span class="to" id="lvupTo">強い村人</span>
+      <div style="margin-top:6px;font-size:.78rem;color:#b9b3de;" id="lvupSub">Lv.1 → Lv.2</div>
+    </div>
+    <button class="lvup-closebtn" id="lvupClose">やった！</button>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   データ：韓国語初級完成編２ 練習問題
+   ========================================================= */
+const SESSIONS = [
+{t:"〜다가（〜していたら、途中で）", ins:"2つの文を「〜다가」でつなげて、一つの文にしてください。「〜している途中で〜する」という意味になります。", hint:"들르다=立ち寄る／매점=売店／똑바로=真っ直ぐ／사거리=四つ角", ex:{q:"공부를 하다 / 잤다",a:"공부를 하다가 잤어요."}, items:[
+["책을 읽다 / 잤다","책을 읽다가 잤어요.","本を読んでいるうちに寝ました。"],
+["집에 가다 / 도서관에 들렀다","집에 가다가 도서관에 들렀어요.","家に帰る途中で図書館に立ち寄りました。"],
+["일을 하다 / 매점에 갔다","일을 하다가 매점에 갔어요.","仕事をしている途中で売店に行きました。"],
+["학교에 오다 / 친구를 만났다","학교에 오다가 친구를 만났어요.","学校に来る途中で友達に会いました。"],
+["똑바로 가다 / 사거리에서 왼쪽으로 가세요","똑바로 가다가 사거리에서 왼쪽으로 가세요.","真っ直ぐ行って、交差点で左に行ってください。"]
+]},
+{t:"〜다가 왔다/왔어요（行って（戻って）来た）", ins:"「〜다가 왔다」の形で文を完成させてください。「行って、また戻ってくる」という意味です。", hint:"벗다=脱ぐ／켜다=（TVを）点ける／끄다=（TVを）消す／지우다=（文字を）消す", ex:{q:"도서관에 가다 / 왔다",a:"도서관에 갔다가 왔어요."}, items:[
+["학교에 가다 / 왔다","학교에 갔다가 왔어요.","学校に行って来ました。（※「学校に行ってきました」→「ただいま」の意味でも使う）"],
+["옷을 입다 / 벗었다","옷을 입었다가 벗었어요.","服を着てから脱ぎました。"],
+["TV를 켜다 / 껐다","TV를 켰다가 껐어요.","テレビをつけてから消しました。"],
+["이름을 쓰다 / 지웠다","이름을 썼다가 지웠어요.","名前を書いてから消しました。"],
+["학교에 가다 / 오겠다","학교에 갔다가 오겠어요.","学校に行って来ます。（※「学校に行ってきます」→「行ってきます」の意味でも使う）"]
+]},
+{t:"〜에 대해서（〜について）", ins:"「〜에 대해서」を使って文を完成させてください。", hint:"지진=地震／이야기를 나누다=話を交わす", ex:{q:"가족 / 이야기 하십시오.",a:"가족에 대해서 이야기 하십시오."}, items:[
+["야구 / 잘 알다","야구에 대해서 잘 알아요.","野球についてよく知っています。"],
+["지진 / 뉴스를 봤다","지진에 대해서 뉴스를 봤어요.","地震についてニュースを見ました。"],
+["취미 / 이야기를 나눕시다.","취미에 대해서 이야기를 나눕시다.","趣味について話しましょう。"],
+["한국 역사 / 공부하고 싶다","한국 역사에 대해서 공부하고 싶어요.","韓国の歴史について勉強したいです。"]
+]},
+{t:"〜을지 모르겠어요（〜か分かりません）", ins:"「〜을지/ㄹ지 모르겠어요」を使って、確信の持てないことを表す文を作ってください。", hint:"팀=チーム／이기다=勝つ", ex:{q:"시험에 합격하다",a:"시험에 합격할지 모르겠어요."}, items:[
+["도서관이 어디에 있다","도서관이 어디에 있을지 모르겠어요.","図書館がどこにあるかわかりません。"],
+["어느 팀이 이기다","어느 팀이 이길지 모르겠어요.","どのチームが勝つかわかりません。"],
+["미선 씨가 오다","미선 씨가 올지 모르겠어요.","ミソンさんが来るかわかりません。"],
+["미선 씨가 이 책을 좋아하다","미선 씨가 이 책을 좋아할지 모르겠어요.","ミソンさんがこの本を好きかわかりません。"],
+["어느 책이 좋다","어느 책이 좋을지 모르겠어요.","どの本がいいかわかりません。"],
+["취직할 수 있다","취직할 수 있을지 모르겠어요.","就職できるかわかりません。"]
+]},
+{t:"〜에 비해서（〜に比べて）", ins:"「〜에 비해서」を使って比較の文を作ってください。（「〜보다」に置き換え可能な場合があります）", hint:"빠르다=速い／오래（時間が）長く／시골=田舎／도시=都市／어리다=幼い／얼굴=顔／안경=眼鏡", ex:{q:"한국말 / 중국말 / 발음이 쉽다",a:"한국말이 중국말에 비해서 발음이 쉬워요."}, items:[
+["지하철 / 버스 / 빠르다","지하철이 버스에 비해서 빨라요.","地下鉄はバスに比べて速いです。"],
+["여자 / 남자 / 오래 살다","여자가 남자에 비해서 오래 살아요.","女性は男性に比べて長生きします。"],
+["시골 / 도시 / 공기가 좋다","시골이 도시에 비해서 공기가 좋아요.","田舎は都市に比べて空気がいいです。"],
+["미선 씨 / 나이 / 어리다","미선 씨는 나이에 비해서 어려요.","ミソンさんは年齢に比べて若く見えます。"],
+["얼굴 / 안경이 크다","얼굴에 비해서 안경이 커요.","顔に比べて眼鏡が大きいです。"]
+]},
+{t:"〜동안（〜の間：期間の長さ）", ins:"「期間＋동안」の形で、「〜の間」という意味の文を作ってください。", hint:"외출＝外出", ex:{q:"1시간 / 비가 왔다",a:"1시간 동안 비가 왔어요."}, items:[
+["20년 / 이 회사에서 일했다","20년 동안 이 회사에서 일했어요.","20年間この会社で働きました。"],
+["3개월 / 중국에서 살았다","3개월 동안 중국에서 살았어요.","3か月間中国に住みました。"],
+["일주일 / 외출을 안 했다","일주일 동안 외출을 안 했어요.","1週間外出しませんでした。"],
+["30분 / 친구를 기다렸다","30분 동안 친구를 기다렸어요.","30分間友達を待ちました。"],
+["방학 / 아르바이트를 하고 싶다","방학 동안 아르바이트를 하고 싶어요.","休み中にアルバイトをしたいです。"],
+["1년 / 중국에 있겠다","1년 동안 중국에 있겠어요.","1年間中国にいます。"],
+["방학 / 공부하십시오.","방학 동안 공부하십시오.","休み中に勉強してください。"]
+]},
+{t:"〜는 동안（〜している間）", ins:"「動詞＋는 동안」の形で、「〜している間に」という意味の文を作ってください。", hint:"항상=いつも／사귀다=付き合う／집을 보다（家を見る）＝留守番する", ex:{q:"전철을 기다리다 / 책을 읽었다",a:"전철을 기다리는 동안 책을 읽었어요."}, items:[
+["제가 공부하다 / 친구는 놀았다","제가 공부하는 동안 친구는 놀았어요.","私が勉強している間、友達は遊んでいました。"],
+["저는 항상 밥을 먹다 / TV를 보다","저는 항상 밥을 먹는 동안 TV를 봐요.","私はいつもご飯を食べている間テレビを見ます。"],
+["친구가 놀다 / 저는 공부하다","친구가 노는 동안 저는 공부해요.","友達が遊んでいる間、私は勉強します。"],
+["한국에 있다 / 한국 친구를 많이 사귀고 싶다","한국에 있는 동안 한국 친구를 많이 사귀고 싶어요.","韓国にいる間、韓国人の友達をたくさん作りたいです。"],
+["제가 없다 / 집을 봐 주세요.","제가 없는 동안 집을 봐 주세요.","私がいない間、留守番をしてください。"]
+]},
+{t:"〜거나 〜거나 해요（〜したり〜したりします）", ins:"対話文を完成させてください。カッコの中の2つの動作を「〜거나 〜거나 해요」でつなげます。", hint:"목욕=風呂／고향=故郷／옛날=昔", ex:{q:"가：주말에는 보통 뭘 해요？（쇼핑을 하다／친구를 만나다）",a:"나：쇼핑을 하거나 친구를 만나거나 해요."}, items:[
+["가：시간이 있을 때 뭘 해요？（책을 읽다／영화를 보다）","나：책을 읽거나 영화를 보거나 해요.","本を読んだり映画を見たりします。"],
+["가：피곤하면 뭘 해요？（목욕을 하다／잠을 자다）","나：목욕을 하거나 잠을 자거나 해요.","お風呂に入ったり寝たりします。"],
+["가：고향 친구를 만나면 뭘 하고 싶어요？（옛날 이야기를 하다／같이 여행가다）","나：옛날 이야기를 하거나 같이 여행가거나 하고 싶어요.","昔話をしたり一緒に旅行に行ったりしたいです。"],
+["가：어떨 때 택시를 타요？（너무 피곤하다／시간이 없다）","나：너무 피곤하거나 시간이 없거나 할 때 택시를 타요.","とても疲れていたり時間がなかったりする時タクシーに乗ります。"]
+]},
+{t:"〜거나 해요（簡略形）", ins:"同じ対話文を、今度は「거나」を1回だけ使う簡略形で完成させてください。", hint:"目慮=風呂／고향=故郷／옛날=昔", ex:{q:"가：주말에는 보통 뭘 해요？（쇼핑을 하다／친구를 만나다）",a:"나：쇼핑을 하거나 친구를 만나요."}, items:[
+["가：시간이 있을 때 뭘 해요？（책을 읽다／영화를 보다）","나：책을 읽거나 영화를 봐요.","本を読んだり映画を見ます。"],
+["가：피곤하면 뭘 해요？（목욕을 하다／잠을 자다）","나：목욕을 하거나 잠을 자요.","お風呂に入ったり寝ます。"],
+["가：고향 친구를 만나면 뭘 하고 싶어요？（옛날 이야기를 하다／같이 여행가다）","나：옛날 이야기를 하거나 같이 여행가고 싶어요.","昔話をしたり一緒に旅行に行きたいです。"],
+["가：어떨 때 택시를 타요？（너무 피곤하다／시간이 없다）","나：너무 피곤하거나 시간이 없을 때 택시를 타요.","とても疲れていたり時間がない時タクシーに乗ります。"]
+]},
+{t:"〜지만（〜ですが）", ins:"2つの文を「-습니다만/-ㅂ니다만」でつなげてください（フォーマルな逆接）。", hint:"허가＝許可", ex:{q:"그렇게 말씀해 주신 것은 기쁘다 ／ 저에게는 그런 능력이 없다",a:"그렇게 말씀해 주신 것은 기쁩니다만 저에게는 그런 능력이 없습니다."}, items:[
+["지하철이 빠르다 ／ 복잡해서 버스를 이용하다","지하철이 빠릅니다만 복잡해서 버스를 이용합니다.","地下鉄は速いですが、混んでいるのでバスを利用します。"],
+["휴일이다 ／ 바빠서 회사에 가야 하다","휴일입니다만 바빠서 회사에 가야 합니다.","休日ですが忙しくて会社に行かなければなりません。"],
+["과장님께 말씀드렸다 ／ 허가를 받지 못 했다","과장님께 말씀드렸습니다만 허가를 받지 못 했습니다.","課長に申し上げましたが許可を得られませんでした。"],
+["비싸지 않다 ／ 소중한 것이다","비싸지 않습니다만 소중한 것입니다.","高くないですが大切なものです。"],
+["열심히 공부했다 ／ 너무 어려워서 이해하지 못 했다","열심히 공부했습니다만 너무 어려워서 이해 못 했습니다.","熱心に勉強しましたが、あまりに難しくて理解できませんでした。"],
+["스테이크를 좋아하다 ／ 비싸서 자주 못 먹다","스테이크를 좋아합니다만 비싸서 자주 못 먹습니다.","ステーキが好きですが、高いのでよく食べられません。"],
+["먹다 ／ 별로 좋아하지 않다","먹습니다만 별로 좋아하지 않습니다.","食べますが、あまり好きではありません。"]
+]},
+{t:"〜아/어 있어요（〜ている：状態の継続）", ins:"「〜아/어 있어요」を使って、動作の結果の状態を表す対話文を完成させてください。", hint:"창문=窓／달력=カレンダー／벽=壁／불=灯り", ex:{q:"학교에 가다",a:"학교에 가 있어요."}, items:[
+["다 모이다","다 모여 있어요.","みんな集まっています。"],
+["창문 앞에 서다","창문 앞에 서 있어요.","窓の前に立っています。"],
+["달력이 벽에 걸리다","달력이 벽에 걸려 있어요.","カレンダーが壁に掛かっています。"],
+["창문이 열리다","창문이 열려 있어요.","窓が開いています。"],
+["불이 켜지다","불이 켜져 있어요.","灯りがついています。"],
+["이름이 쓰이다","이름이 쓰여 있어요.","名前が書かれています。"],
+["교과서가 책상에 놓이다","교과서가 책상에 놓여 있어요.","教科書が机に置かれています。"]
+]},
+{t:"〜지 않으면 안 돼요（〜しなければなりません）", ins:"「〜지 않으면 안 돼요」の形で、義務を表す文を作ってください。", hint:"깨끗하다=清潔だ／성공하다＝成功する／끝내다=終える／지키다=守る／떠나다=発つ", ex:{q:"내일은 일찍 일어나다",a:"내일은 일찍 일어나지 않으면 안 돼요."}, items:[
+["식당은 깨끗하다","식당은 깨끗하지 않으면 안 돼요.","食堂は清潔でなければなりません。"],
+["성공하려면 노력하다","성공하려면 노력하지 않으면 안 돼요.","成功するには努力しなければなりません。"],
+["약을 먹다","약을 먹지 않으면 안 돼요.","薬を飲まなければなりません。"],
+["3시까지 이 일을 끝내다","3시까지 이 일을 끝내지 않으면 안 돼요.","3時までにこの仕事を終えなければなりません。"],
+["약속을 지키다","약속을 지키지 않으면 안 돼요.","約束を守らなければなりません。"],
+["지금 떠나다","지금 떠나지 않으면 안 돼요.","今出発しなければなりません。"],
+["7시까지 돌아가다","7시까지 돌아가지 않으면 안 돼요.","7時までに帰らなければなりません。"]
+]},
+{t:"〜자고 합니다（勧誘の間接引用）", ins:"「〜(으)자고 합니다」の形で、「〜しようと言っています」という間接引用文にしてください。", hint:"동료＝同僚／쉬다=休む／포기하다（放棄する）＝あきらめる", ex:{q:"유카：산책합시다.",a:"유카 씨가 산책하자고 합니다."}, items:[
+["유카：도서관에 갑시다.","유카 씨가 도서관에 가자고 합니다.","ユカさんが図書館に行こうと言っています。"],
+["민철：점심을 먹읍시다.","민철 씨가 점심을 먹자고 합니다.","ミンチョルさんが昼食を食べようと言っています。"],
+["웨이：같이 운동합시다.","웨이 씨가 같이 운동하자고 합니다.","ウェイさんが一緒に運動しようと言っています。"],
+["친구：같이 공부합시다.","친구가 같이 공부하자고 합니다.","友達が一緒に勉強しようと言っています。"],
+["동료：좀 쉽시다.","동료가 좀 쉬자고 합니다.","同僚が少し休もうと言っています。"],
+["웨이：영화를 보러 갑시다.","웨이 씨가 영화를 보러 가자고 합니다.","ウェイさんが映画を見に行こうと言っています。"],
+["토마스：포기하지 맙시다.","토마스 씨가 포기하지 말자고 합니다.","トーマスさんがあきらめないようにしようと言っています。"],
+["토마스：쉬지 맙시다.","토마스 씨가 쉬지 말자고 합니다.","トーマスさんが休まないようにしようと言っています。"]
+]},
+{t:"〜(이)라고 합니다（名詞文の間接引用）", ins:"名詞で終わる文を「〜(이)라고 합니다」の形で間接引用文にしてください。", hint:"", ex:{q:"유카：무서운 영화입니다.",a:"유카 씨가 무서운 영화라고 합니다."}, items:[
+["웨이：맛있는 밥입니다.","웨이 씨가 맛있는 밥이라고 합니다.","ウェイさんが美味しいご飯だと言っています。"],
+["유카：가고 싶은 나라는 프랑스입니다.","유카 씨가 가고 싶은 나라는 프랑스라고 합니다.","ユカさんが行きたい国はフランスだと言っています。"],
+["민철：재미있는 이야기예요.","민철 씨가 재미있는 이야기라고 합니다.","ミンチョルさんが面白い話だと言っています。"],
+["선생님：좋은 책이에요.","선생님이 좋은 책이라고 합니다.","先生がいい本だと言っています。"],
+["웨이：여기는 학교가 아닙니다.","웨이 씨가 여기는 학교가 아니라고 합니다.","ウェイさんがここは学校ではないと言っています。"],
+["민철：오늘은 휴일이 아니에요.","민철 씨가 오늘은 휴일이 아니라고 합니다.","ミンチョルさんが今日は休日ではないと言っています。"]
+]},
+{t:"〜다고 합니다（動詞・形容詞文の間接引用）", ins:"動詞・形容詞で終わる文を「〜다고 합니다」の形で間接引用文にしてください。", hint:"질（質）／앞으로＝これから", ex:{q:"웨이：한국어 시험이 어려워요.",a:"웨이가 한국어 시험이 어렵다고 합니다."}, items:[
+["유카：요즘 바빠요.","유카가 요즘 바쁘다고 합니다.","ユカが最近忙しいと言っています。"],
+["친구：그 회사 제품은 질이 좋아요.","친구가 그 회사 제품은 질이 좋다고 합니다.","友達がその会社の製品は質がいいと言っています。"],
+["민철：맛있어요.","민철이 맛있다고 합니다.","ミンチョルが美味しいと言っています。"],
+["친구：영화가 재미없어요.","친구가 영화가 재미없다고 합니다.","友達が映画が面白くないと言っています。"],
+["유카：오늘은 더워요.","유카가 오늘은 덥다고 합니다.","ユカが今日は暑いと言っています。"],
+["토마스：도서관에 갑니다.","토마스가 도서관에 간다고 합니다.","トーマスが図書館に行くと言っています。"],
+["민철：친구하고 밥을 먹습니다.","민철이 친구하고 밥을 먹는다고 합니다.","ミンチョルが友達とご飯を食べると言っています。"],
+["친구：열심히 공부했어요.","친구가 열심히 공부했다고 합니다.","友達が熱心に勉強したと言っています。"],
+["유카：어제 바빴어요.","유카가 어제 바빴다고 합니다.","ユカが昨日忙しかったと言っています。"],
+["웨이：내일 도서관에 갈 거예요.","토마스가 내일 도서관에 갈 거라고 합니다.","トーマスが明日図書館に行くつもりだと言っています。"],
+["민철：내일 비가 올 거예요.","민철이 내일 비가 올 거라고 합니다.","ミンチョルが明日雨が降るだろうと言っています。"],
+["친구：앞으로 열심히 공부하겠습니다.","친구가 앞으로 열심히 공부하겠다고 합니다.","友達がこれから熱心に勉強すると言っています。"]
+]},
+{t:"〜냐고 해요（疑問文の間接引用）", ins:"疑問文を「〜냐고 해요」の形で間接引用文にしてください。", hint:"", ex:{q:"유카：지금 몇 시예요？",a:"유카 씨가 지금 몇 시냐고 해요."}, items:[
+["손님：얼마예요？","손님이 얼마냐고 해요.","お客さんがいくらかと聞いています。"],
+["토마스：이게 한국 책이에요？","토마스 씨가 이게 한국 책이냐고 해요.","トーマスさんがこれが韓国の本かと聞いています。"],
+["민수：오늘은 휴일이 아니에요？","민수 씨가 오늘은 휴일이 아니냐고 해요.","ミンスさんが今日は休日ではないかと聞いています。"],
+["유카：요즘 바빠요？","유카 씨가 요즘 바쁘냐고 해요.","ユカさんが最近忙しいかと聞いています。"],
+["토마스：이 회사 제품은 질이 좋아요？","토마스 씨가 이 회사 제품은 질이 좋냐고 해요.","トーマスさんがこの会社の製品は質がいいかと聞いています。"],
+["웨이：이게 어떻습니까？","웨이 씨가 이게 어떠냐고 해요.","ウェイさんがこれはどうかと聞いています。"],
+["민철：맛있어요？","민철 씨가 맛있냐고 해요.","ミンチョルさんが美味しいかと聞いています。"],
+["친구：영화가 재미없어요？","친구가 영화가 재미있냐고 해요.","友達が映画が面白いかと聞いています。"],
+["유카：오늘은 더워요？","유카 씨가 오늘은 덥냐고 해요.","ユカさんが今日は暑いかと聞いています。"],
+["토마스：도서관에 가요？","토마스 씨가 도서관에 가냐고 해요.","トーマスさんが図書館に行くかと聞いています。"],
+["민철：친구하고 밥을 먹어요？","민철 씨가 친구하고 밥을 먹냐고 해요.","ミンチョルさんが友達とご飯を食べるかと聞いています。"],
+["어머니：공부했어요？","어머니가 공부했냐고 해요.","お母さんが勉強したかと聞いています。"],
+["유카：어제 바빴어요？","유카 씨가 어제 바빴냐고 해요.","ユカさんが昨日忙しかったかと聞いています。"],
+["토마스：내일 도서관에 갈 거예요？","토마스 씨가 내일 도서관에 갈 거냐고 해요.","トーマスさんが明日図書館に行くつもりかと聞いています。"],
+["친구：앞으로 열심히 공부하겠어요？","친구가 앞으로 열심히 공부하겠냐고 해요.","友達がこれから熱心に勉強するつもりかと聞いています。"]
+]},
+{t:"〜(으)라고 합니다（命令文の間接引用）", ins:"命令文を「〜(으)라고 합니다」の形で間接引用文にしてください。", hint:"떠들다=騒ぐ／싸우다＝ケンカする／화를 내다（憤りを出す）＝怒る", ex:{q:"선생님：여기에 앉으십시오.",a:"선생님이 여기에 앉으라고 합니다."}, items:[
+["선배：오십시오.","선배가 오라고 합니다.","先輩が来るように言っています。"],
+["어머니：공부하십시오.","어머니가 공부하라고 합니다.","お母さんが勉強するように言っています。"],
+["오빠：일어나십시오.","오빠가 일어나라고 합니다.","兄が起きるように言っています。"],
+["선생님：책을 읽으십시오.","선생님이 책을 읽으라고 해요.","先生が本を読むように言っています。"],
+["선배：오지 마십시오.","선배가 오지 말라고 해요.","先輩が来ないように言っています。"],
+["선생님：떠들지 마십시오.","선생님이 떠들지 말라고 해요.","先生が騒がないように言っています。"],
+["아저씨：여기에서 사진을 찍지 마십시오.","아저씨가 여기에서 사진을 찍지 말라고 해요.","おじさんがここで写真を撮らないように言っています。"],
+["어머니：친구하고 싸우지 마십시오.","어머니가 친구하고 싸우지 말라고 해요.","お母さんが友達とケンカしないように言っています。"],
+["친구：화를 내지 마십시오.","친구가 화를 내지 말라고 해요.","友達が怒らないように言っています。"]
+]},
+{t:"〜달라고 합니다（〜をくれと言っています）", ins:"「〜을/를 주십시오」を「〜을/를 달라고 합니다」の形で間接引用文にしてください。", hint:"용돈＝お小遣い／영수증（領収証）／손수건＝ハンカチ", ex:{q:"남동생：용돈을 주십시오.",a:"남동생이 용돈을 달라고 합니다."}, items:[
+["토마스：과자를 주십시요.","토마스 씨가 과자를 달라고 합니다.","トーマスさんがお菓子をくれと言っています。"],
+["민철：물을 주십시오.","민철 씨가 물을 달라고 합니다.","ミンチョルさんが水をくれと言っています。"],
+["선배：손수건을 주십시오.","선배가 손수건을 달라고 합니다.","先輩がハンカチをくれと言っています。"],
+["손님：영수증을 주십시오.","손님이 영수증을 달라고 합니다.","お客さんが領収証をくれと言っています。"]
+]},
+{t:"〜아/어 달라고 해요（〜してくれと言っています）", ins:"「〜아/어 주십시오」を「〜아/어 달라고 해요」の形で間接引用文にしてください（自分が動作の受け手のとき）。", hint:"알리다＝知らせる／돕다＝助ける／설명（説明）", ex:{q:"미선：사전을 빌려 주십시오.",a:"미선 씨가 사전을 빌려 달라고 해요."}, items:[
+["웨이：주소를 알려 주십시오.","웨이 씨가 주소를 알려 달라고 해요.","ウェイさんが住所を教えてくれと言っています。"],
+["토마스：천천히 말해 주세요.","토마스 씨가 천천히 말해 달라고 해요.","トーマスさんがゆっくり話してくれと言っています。"],
+["토마스：전화 번호를 알려 주세요.","토마스 씨가 전화 번호를 알려 달라고 해요.","トーマスさんが電話番号を教えてくれと言っています。"],
+["민철：도와 주세요.","민철 씨가 도와 달라고 해요.","ミンチョルさんが手伝ってくれと言っています。"],
+["가나：한국말을 가르쳐 주세요.","가나 씨가 한국말을 가르쳐 달라고 해요.","ガナさんが韓国語を教えてくれと言っています。"],
+["유카：다시 한번 설명해 주세요.","유카 씨가 다시 한번 설명해 달라고 해요.","ユカさんがもう一度説明してくれと言っています。"]
+]},
+{t:"〜에게 〜를 주라고 합니다（第三者への命令の間接引用）", ins:"「〜에게 〜을/를 주십시오」を、「〜에게 〜을/를 주라고 합니다」の形にしてください（動作の受け手が自分以外のとき）。", hint:"", ex:{q:"남동생：여동생에게 용돈을 주십시오.",a:"남동생이 여동생에게 용돈을 주라고 합니다."}, items:[
+["토마스：웨이에게 과자를 주십시요.","토마스 씨가 웨이 씨에게 과자를 주라고 합니다.","トーマスさんがウェイさんにお菓子をあげるように言っています。"],
+["민철：미선 씨에게 물을 주십시오.","민철 씨가 미선 씨에게 물을 주라고 합니다.","ミンチョルさんがミソンさんに水をあげるように言っています。"],
+["선배：가나 씨에게 손수건을 주십시오.","선배가 가나 씨에게 손수건을 주라고 합니다.","先輩がガナさんにハンカチをあげるように言っています。"],
+["손님：다른 손님에게도 영수증을 주십시오.","손님이 다른 손님에게도 영수증을 주라고 합니다.","お客さんが他のお客さんにも領収証をあげるように言っています。"]
+]},
+{t:"〜에게 〜해 주라고 해요（第三者への依頼の間接引用）", ins:"「〜에게 〜아/어 주세요」を、「〜에게 〜아/어 주라고 해요」の形にしてください（動作の受け手が自分以外のとき）。", hint:"", ex:{q:"유카：웨이 씨에게 사전을 빌려 주십시오.",a:"유카 씨가 웨이 씨에게 사전을 빌려 주라고 해요."}, items:[
+["웨이：토마스 씨에게 주소를 알려 주십시오.","웨이 씨가 토마스 씨에게 주소를 알려 주라고 해요.","ウェイさんがトーマスさんに住所を教えてあげるように言っています。"],
+["토마스：유카 씨에게 천천히 말해 주세요.","토마스 씨가 유카 씨에게 천천히 말해 주라고 해요.","トーマスさんがユカさんにゆっくり話してあげるように言っています。"],
+["토마스：웨이 씨에게 전화 번호를 알려 주세요.","토마스 씨가 웨이 씨에게 전화 번호를 알려 주라고 해요.","トーマスさんがウェイさんに電話番号を教えてあげるように言っています。"],
+["민철：저 할머니를 도와 주세요.","민철 씨가 저 할머니를 도와 주라고 해요.","ミンチョルさんがあのおばあさんを助けてあげるように言っています。"],
+["가나：남동생에게 한국말을 가르쳐 주세요.","가나 씨가 남동생에게 한국말을 가르쳐 주라고 해요.","ガナさんが弟に韓国語を教えてあげるように言っています。"],
+["유카：토마스 씨에게 다시 한번 설명해 주세요.","유카 씨가 토마스 씨에게 다시 한번 설명해 주라고 해요.","ユカさんがトーマスさんにもう一度説明してあげるように言っています。"]
+]},
+{t:"〜을래요（意向：〜します）", ins:"「〜을래요/ㄹ래요」の形に活用してください。自分の意向・希望を表します。", hint:"", ex:{q:"커피를 마시다",a:"커피를 마실래요."}, items:[
+["내일은 집에 있다","내일은 집에 있을래요.","明日は家にいます。"],
+["이 영화를 보다","이 영화를 볼래요.","この映画を見ます。"],
+["케이크를 먹다","케이크를 먹을래요.","ケーキを食べます。"],
+["이 책을 읽다","이 책을 읽을래요.","この本を読みます。"],
+["집에 가다","집에 갈래요.","家に帰ります。"],
+["유학을 가다","유학을 갈래요.","留学に行きます。"]
+]},
+{t:"〜을래요？（意向を尋ねる）", ins:"同じ動詞を、今度は疑問形「〜을래요？/ㄹ래요？」に活用してください。相手の意向を尋ねます。", hint:"", ex:{q:"커피를 마시다",a:"커피를 마실래요？"}, items:[
+["내일은 집에 있다","내일은 집에 있을래요？","明日は家にいますか？"],
+["이 영화를 보다","이 영화를 볼래요？","この映画を見ますか？"],
+["케이크를 먹다","케이크를 먹을래요？","ケーキを食べますか？"],
+["이 책을 읽다","이 책을 읽을래요？","この本を読みますか？"],
+["집에 가다","집에 갈래요？","家に帰りますか？"],
+["유학을 가다","유학을 갈래요？","留学に行きますか？"]
+]},
+{t:"〜아/어서 〜아/어야겠어요（〜ので〜しなければ）", ins:"2つの文を「〜아/어서 〜아/어야겠어요」でつなげてください。理由＋強い意志・必要性を表します。", hint:"", ex:{q:"배가 고프다 / 밥을 먹다",a:"배가 고파서 밥을 먹어야겠어요."}, items:[
+["시간이 없다 / 택시로 가다","시간이 없어서 택시로 가야겠어요.","時間がないのでタクシーで行かなければなりません。"],
+["일이 많다 / 일요일에도 일을 하다","일이 많아서 일요일에도 일을 해야겠어요.","仕事が多いので日曜日も働かなければなりません。"],
+["덥다 / 아이스크림을 먹다","더워서 아이스크림을 먹어야겠어요.","暑いのでアイスクリームを食べなければなりません。"],
+["약속이 있다 / 친구 집에 가다","약속이 있어서 친구 집에 가야겠어요.","約束があるので友達の家に行かなければなりません。"],
+["춥다 / 옷을 많이 입다","추워서 옷을 많이 입어야겠어요.","寒いので服をたくさん着なければなりません。"]
+]},
+{t:"〜게 되었어요（〜することになりました）", ins:"接続詞は「때문에」や「〜아/어(서)」を適宜使い、「〜게 되었어요」で結果的な変化を表す文を作ってください。", hint:"실수＝ミス／그만두다＝辞める／문을 닫다（門を閉める）＝店をたたむ／졸업（卒業）／헤어지다＝別れる／휴일（休日）", ex:{q:"남편 일 / 이사하다",a:"남편 일 때문에 이사하게 되었어요."}, items:[
+["일을 실수하다 / 회사를 그만두다","일을 실수해서 회사를 그만두게 되었어요.","仕事でミスをして会社を辞めることになりました。"],
+["손님이 없다 / 문을 닫다","손님이 없어서 문을 닫게 되었어요.","お客さんがいなくて店を閉めることになりました。"],
+["성적이 나쁘다 / 졸업을 못 하다","성적이 나빠서 졸업을 못 하게 되었어요.","成績が悪くて卒業できなくなりました。"],
+["남자 친구와 싸우다 / 헤어지다","남자 친구와 싸워서 헤어지게 되었어요.","彼氏とケンカして別れることになりました。"],
+["일이 너무 많다 / 휴일에 출근하다","일이 너무 많아서 휴일에 출근하게 되었어요.","仕事が多すぎて休日に出勤することになりました。"]
+]},
+{t:"〜는 대로（〜したらすぐに）", ins:"2つの文を「〜는 대로」でひとつにしてください。「〜するとすぐに」という意味です。", hint:"", ex:{q:"수업이 끝나다 / 점심을 먹으러 가겠다",a:"수업이 끝나는 대로 점심을 먹으러 가겠어요."}, items:[
+["도착하다 / 전화해 주세요.","도착하는 대로 전화해 주세요.","着いたらすぐに電話してください。"],
+["친구를 만나다 / 회사에 가겠다","친구를 만나는 대로 회사에 가겠어요.","友達に会ったらすぐに会社に行きます。"],
+["집에 돌아오다 / 전화할게요.","집에 돌아오는 대로 전화할게요.","家に帰ったらすぐに電話します。"],
+["회사에 들어가다 / 과장님을 만날 거예요.","회사에 들어가는 대로 과장님을 만날 거예요.","会社に入ったらすぐに課長に会います。"],
+["숙제가 끝나다 / 밥을 먹으러 갑시다.","숙제가 끝나는 대로 밥을 먹으러 갑시다.","宿題が終わったらすぐにご飯を食べに行きましょう。"]
+]},
+{t:"〜에다가（〜に：置く場所）", ins:"「〜에다가」を使って、「〜に（置く・書く・入れる）」という意味の文を作ってください。", hint:"수첩（手帳）／벽＝壁／달력＝カレンダー／걸다＝掛ける／발＝足／바르다＝ぬる／쓰레기통＝ゴミ箱／쓰레기＝ゴミ／버리다＝捨てる", ex:{q:"공책 / 이름을 쓰세요.",a:"공책에다가 이름을 쓰세요."}, items:[
+["수첩 / 전화번호를 쓰세요.","수첩에다가 전화번호를 쓰세요.","手帳に電話番号を書いてください。"],
+["책상 위 / 교과서를 놓다","책상 위에다가 교과서를 놓아요.","机の上に教科書を置きます。"],
+["벽 / 달력을 걸다","벽에다가 달력을 걸어요.","壁にカレンダーを掛けます。"],
+["삼계탕 / 소금을 넣다","삼계탕에다가 소금을 넣어요.","サムゲタンに塩を入れます。"],
+["발 / 약을 바르다","발에다가 약을 발라요.","足に薬を塗ります。"],
+["쓰레기통 / 쓰레기를 버렸다","쓰레기통에다가 쓰레기를 버렸어요.","ゴミ箱にゴミを捨てました。"]
+]},
+{t:"ㅅ不規則活用", ins:"「ㅅ」で終わる語幹の単語を、4つの形（-고 ／ -어(아,여)요 ／ -었(았,였)어요 ／ -(으)니까）に活用してください。※씻다・웃다は規則活用です。", hint:"낫다=治る／짓다=作る／붓다=注ぐ／젓다=かき混ぜる／잇다=つなぐ／긋다=（線を）引く／씻다＝洗う／웃다＝笑う", ex:null, items:[
+["낫다 → （-고 ／ -어요 ／ -었어요 ／ -(으)니까）","낫고 ／ 나아요 ／ 나았어요 ／ 나으니까","治って／治ります／治りました／治るから"],
+["짓다 → （-고 ／ -어요 ／ -었어요 ／ -(으)니까）","짓고 ／ 지어요 ／ 지었어요 ／ 지으니까","（家などを）作って／作ります／作りました／作るから"],
+["붓다 → （-고 ／ -어요 ／ -었어요 ／ -(으)니까）","붓고 ／ 부어요 ／ 부었어요 ／ 부으니까","注いで／注ぎます／注ぎました／注ぐから"],
+["젓다 → （-고 ／ -어요 ／ -었어요 ／ -(으)니까）","젓고 ／ 저어요 ／ 저었어요 ／ 저으니까","かき混ぜて／かき混ぜます／かき混ぜました／かき混ぜるから"],
+["잇다 → （-고 ／ -어요 ／ -었어요 ／ -(으)니까）","잇고 ／ 이어요 ／ 이었어요 ／ 이으니까","つないで／つなぎます／つなぎました／つなぐから"],
+["긋다 → （-고 ／ -어요 ／ -었어요 ／ -(으)니까）","긋고 ／ 그어요 ／ 그었어요 ／ 그으니까","（線を）引いて／引きます／引きました／引くから"],
+["씻다 → （-고 ／ -어요 ／ -었어요 ／ -(으)니까）","씻고 ／ 씻어요 ／ 씻었어요 ／ 씻으니까","洗って／洗います／洗いました／洗うから"],
+["웃다 → （-고 ／ -어요 ／ -었어요 ／ -(으)니까）","웃고 ／ 웃어요 ／ 웃었어요 ／ 웃으니까","笑って／笑います／笑いました／笑うから"]
+]},
+{t:"〜는 데다가（〜な上に）", ins:"「〜는/은/ㄴ 데다가」を使って、「〜な上に、さらに〜」という意味の文を作ってください。", hint:"월급（月給）／가르치다＝教える／식욕（食欲）／소화（消化）", ex:{q:"이 식당은 서비스가 나쁘다 / 음식도 맛없다",a:"이 식당은 서비스가 나쁜 데다가 음식도 맛없어요."}, items:[
+["그 회사는 월급이 적다 / 일이 너무 힘들다","그 회사는 월급이 적은 데다가 일이 너무 힘들어요.","その会社は給料が少ない上に仕事がとても大変です。"],
+["목이 아프다 / 열도 나다","목이 아픈 데다가 열도 나요.","喉が痛い上に熱も出ます。"],
+["우리 선생님은 잘 가르치다 / 친절하다","우리 선생님은 잘 가르치는 데다가 친절해요.","私たちの先生はよく教える上に親切です。"],
+["어제는 술을 많이 마셨다 / 늦게까지 놀았다","어제는 술을 많이 마신 데다가 늦게까지 놀았어요.","昨日はお酒をたくさん飲んだ上に遅くまで遊びました。"],
+["요즘은 식욕이 없다 / 소화도 안 되다","요즘은 식욕이 없는 데다가 소화도 안 돼요.","最近は食欲がない上に消化もよくありません。"]
+]},
+{t:"〜지 말고（〜しないで）", ins:"「〜지 말고」を使って、「〜しないで、代わりに〜」という意味の文を作ってください。", hint:"평일（平日）／놀다＝遊ぶ／버리다＝捨てる／떠들다＝騒ぐ", ex:{q:"과식하다 / 운동하다",a:"과식하지 말고 운동하세요."}, items:[
+["주말에 가다 / 평일에 가다","주말에 가지 말고 평일에 가세요.","週末に行かないで平日に行ってください。"],
+["놀다 / 공부하다","놀지 말고 공부하세요.","遊ばないで勉強してください。"],
+["먹다 / 버리다","먹지 말고 버리세요.","食べないで捨ててください。"],
+["떠들다 / 선생님 이야기를 듣다","떠들지 말고 선생님 이야기를 들으세요.","騒がないで先生の話を聞いてください。"],
+["약국에 가다 / 병원에 가다","약국에 가지 말고 병원에 가세요.","薬局に行かないで病院に行ってください。"],
+["무리하다 / 병원에 가다","무리하지 말고 병원에 가세요.","無理しないで病院に行ってください。"]
+]},
+{t:"〜기 위해서（〜するために）", ins:"「〜기 위해서」を使って、目的を表す文を作ってください。", hint:"행복（幸福）／모으다＝集める／그림＝絵／배우다＝学ぶ／유학（留学）", ex:{q:"성공 / 노력하다",a:"성공을 위해서 노력해요."}, items:[
+["가족의 행복 / 일하다","가족의 행복을 위해서 일해요.","家族の幸せのために働きます。"],
+["건강 / 운동하다","건강을 위해서 운동해요.","健康のために運動します。"],
+["집을 사다 / 돈을 모으다","집을 사기 위해서 돈을 모아요.","家を買うためにお金を集めます。"],
+["한국을 알다 / 책을 읽다","한국을 알기 위해서 책을 읽어요.","韓国を知るために本を読みます。"],
+["그림을 배우다 / 프랑스로 유학가다","그림을 배우기 위해서 프랑스로 유학가요.","絵を学ぶためにフランスに留学します。"],
+["의사가 되다 / 열심히 공부하다","의사가 되기 위해서 열심히 공부해요.","医者になるために熱心に勉強します。"]
+]},
+{t:"아무〜나（どの〜でも）", ins:"対話文を完成させてください。「아무〜나」で「何/どこ/いつ〜でも」という意味になります。", hint:"", ex:{q:"가：어디에서 만날까요？（데／괜찮다）",a:"나：아무데나 괜찮아요."}, items:[
+["가：언제 만날까요？（때／좋다）","나：아무때나 좋아요.","いつでもいいです。"],
+["가：무슨 차를 드릴까요？（거／주세요）","나：아무거나 주세요.","何でもください。"],
+["가：무슨 영화를 좋아해요？（영화／좋아하다）","나：아무 영화나 좋아해요.","どんな映画でも好きです。"],
+["가：저에게 어떤 옷이 어울릴까요？（옷／잘 어울리다）","나：아무 옷이나 잘 어울려요.","どんな服でもよく似合います。"],
+["가：생일 선물로 뭘 받고 싶어요？（거／받고 싶다）","나：아무거나 받고 싶어요.","何でももらいたいです。"]
+]},
+{t:"얼마나 〜는지 몰라요（どんなに〜か分かりません）", ins:"対話文を完成させてください。「얼마나 〜는지/(으)ㄴ지 몰라요」で程度の強さを強調します。", hint:"노력（努力）／놀라다＝驚く", ex:{q:"가：지금 바빠요？",a:"나：네, 얼마나 바쁜지 몰라요."}, items:[
+["가：사람이 많아요？","나：네, 얼마나 많은지 몰라요.","どんなに多いかわかりません。"],
+["가：피곤해요？","나：네, 얼마나 피곤한지 몰라요.","どんなに疲れているかわかりません。"],
+["가：날씨가 추워요？","나：네, 얼마나 추운지 몰라요.","どんなに寒いかわかりません。"],
+["가：한국말을 잘 해요？","나：네, 얼마나 잘 하는지 몰라요.","どんなに上手かわかりません。"],
+["가：미선 씨는 김치는 잘 먹어요？","나：네, 얼마나 잘 먹는지 몰라요.","どんなによく食べるかわかりません。"],
+["가：시험이 어려웠어요？","나：네, 얼마나 어려웠는지 몰라요.","どんなに難しかったかわかりません。"],
+["가：놀랐어요？","나：네, 얼마나 놀랐는지 몰라요.","どんなに驚いたかわかりません。"],
+["가：영화가 재미있어요？","나：네, 얼마나 재미있는지 몰라요.","どんなに面白いかわかりません。"],
+["가：영화가 재미있었어요？","나：네, 얼마나 재미있었는지 몰라요.","どんなに面白かったかわかりません。"]
+]},
+{t:"〜는 걸 보니까 〜나 봐요（〜のを見ると〜みたいです）", ins:"「〜는 걸/것을 보니까 〜나/(으)ㄴ가 봐요」を使って、根拠にもとづく推測を表す文を作ってください。", hint:"외출（外出）／화장（化粧）／사고가 나다（事故が起こる）／바람＝風／불다＝吹く／나뭇잎（木の葉）／흔들리다＝揺れる／구급차（救急車）", ex:{q:"가：밖이 추운 것 같아요？（사람들이 코트를 입다）",a:"나：네, 사람들이 코트를 입은 걸 보니까 추운가 봐요."}, items:[
+["가：그 분이 한국 사람일까요？（한국말을 아주 잘 하다）","나：네, 한국말을 아주 잘 하는 것을(=걸) 보니까 한국 사람인가 봐요.","韓国語をとても上手に話すのを見ると韓国人みたいです。"],
+["가：리에 씨가 바쁜 것 같아요？（요즘 만나기가 어렵다）","나：네, 요즘 만나기가 어려운 걸 보니까 바쁜가 봐요.","最近会いにくいのを見ると忙しいみたいです。"],
+["가：바람이 많이 부는 것 같아요？（나뭇잎이 흔들리다）","나：네, 나뭇잎이 흔들리는 걸 보니까 많이 부나 봐요.","木の葉が揺れるのを見ると風が強く吹いているみたいです。"],
+["가：사고가 난 것 같아요？（구급차가 가다）","나：네, 구급차가 가는 걸 보니까 사고가 났나 봐요.","救急車が行くのを見ると事故が起きたみたいです。"],
+["가：미선 씨가 외출할 것 같아요？（화장하다）","나：네, 화장한 걸 보니까 외출할 건가 봐요.","化粧したのを見ると外出するみたいです。"],
+["가：그 영화가 재미있는 것 같아요？（사람들이 웃다）","나：네, 사람들이 웃는 걸 보니까 재미있나 봐요.","人々が笑うのを見ると面白いみたいです。"]
+]},
+{t:"〜밖에（〜しか）", ins:"「〜밖에」＋否定形を使って、「〜しか（ない）」という意味の対話文を完成させてください。", hint:"", ex:{q:"가：지금 돈이 있어요？（2,000원）",a:"나：2,000원밖에 없어요."}, items:[
+["가：오 선생님이 가요？（김 선생님）","나：아니요, 김선생님밖에 안 가요.","キム先生しか行きません。"],
+["가：여기에서 학교까지 얼마나 걸려요？（3분）","나：3분밖에 안 걸려요.","3分しかかかりません。"],
+["가：한국말을 공부한 지 얼마나 됐어요？（1년）","나：1년밖에 안 됐어요.","1年しか経っていません。"],
+["가：그 사람을 잘 알아요？（이름）","나：아니요, 이름밖에 몰라요.","名前しか知りません。"],
+["가：날마다 아침을 많이 먹어요？（우유）","나：아니요, 우유밖에 안 먹어요.","牛乳しか飲みません。"],
+["가：형제가 많아요？（오빠）","나：아니요, 오빠밖에 없어요.","兄しかいません。"]
+]},
+{t:"〜의（〜の）", ins:"「〜의」を使って所有・所属を表す文を作ってください。「저／나／너」は「제／내／네」に変化することに注意してください。", hint:"장미（バラ）／향기＝香り", ex:{q:"리에 씨 / 책이다",a:"리에 씨의 책이에요."}, items:[
+["민수 씨 / 선생님이다","민수 씨의 선생님이에요.","ミンスさんの先生です。"],
+["학교 / 교실에 있다","학교의 교실에 있어요.","学校の教室にいます。"],
+["장미꽃 / 향기가 좋다","장미꽃의 향기가 좋아요.","バラの花の香りがいいです。"],
+["친구 / 옷이 예쁘다","친구의 옷이 예뻐요.","友達の服がきれいです。"],
+["아버지 / 말씀을 들으세요.","아버지의 말씀을 들으세요.","父の言葉を聞いてください。"],
+["저 / 책이다","제 책이에요.（저 책이에요.は誤り）","私の本です。"],
+["나 / 책이다","내 책이에요.（나 책이에요.は誤り）","私の本です。"],
+["너 / 책이다","네 책이에요.（너 책이에요.は誤り）","あなたの本です。"]
+]},
+{t:"〜던/았던（〜していた（もの・場所））", ins:"「〜던／았던／었던」を使って、過去に一度した経験のあるものごとを修飾する文を作ってください。", hint:"자리＝席／세탁기（洗濯機）／아까＝さっき／어울리다＝似合う", ex:{q:"2년 전에 만났다 / 사람이다",a:"2년 전에 만났던 사람이에요."}, items:[
+["어제 처음 갔다 / 식당이다","어제 처음 갔던 식당이에요.","昨日初めて行ったレストランです。"],
+["연수 씨가 앉았다 / 자리이다","연수 씨가 앉았던 자리예요.","ヨンスさんが座っていた席です。"],
+["세탁기를 샀다 / 백화점이다","세탁기를 샀던 백화점이에요.","洗濯機を買ったデパートです。"],
+["어제 봤다 / 영화가 재미있었다","어제 봤던 영화가 재미있었어요.","昨日見た映画が面白かったです。"],
+["아까 입었다 / 옷이 잘 어울리다","아까 입었던 옷이 잘 어울려요.","さっき着ていた服がよく似合います。"],
+["작년에 갔다 / 이탈리아가 제일 인상적이었다","작년에 갔던 이탈리아가 제일 인상적이었어요.","去年行ったイタリアが一番印象的でした。"]
+]},
+{t:"〜던（よく〜していた（習慣・回想））", ins:"「〜던」を使って、過去に何度も繰り返していたことを表す文を作ってください。", hint:"옛날＝昔／아까＝さっき", ex:{q:"자주 갔다 / 카페이다",a:"자주 가던 카페예요."}, items:[
+["옛날에 자주 들었다 / 음악이다","옛날에 자주 듣던 음악이에요.","昔よく聞いていた音楽です。"],
+["자주 입었다 / 옷이다","자주 입던 옷이에요.","よく着ていた服です。"],
+["아까 읽었다 / 책이다","아까 읽던 책이에요.","さっき読んでいた本です。"],
+["제가 먹었다 / 과자를 친구가 다 먹어 버렸다","제가 먹던 과자를 친구가 다 먹어 버렸어요.","私が食べていたお菓子を友達が全部食べてしまいました。"],
+["옛날에 살았다 / 집이다","옛날에 살던 집이에요.","昔住んでいた家です。"]
+]},
+{t:"〜만에（〜ぶりに）", ins:"「期間＋만에」で、「〜ぶりに」という意味の文を作ってください。", hint:"외출（外出）", ex:{q:"1년 / 영화를 봤다",a:"1년 만에 영화를 봤어요."}, items:[
+["2년 / 여행을 했다","2년 만에 여행을 했어요.","2年ぶりに旅行をしました。"],
+["3일 / 전화를 했다","3일 만에 전화를 했어요.","3日ぶりに電話をしました。"],
+["10년 / 선생님을 만났다","10년 만에 선생님을 만났어요.","10年ぶりに先生に会いました。"],
+["5년 / 편지를 썼다","5년 만에 편지를 썼어요.","5年ぶりに手紙を書きました。"],
+["한 달 / 운동을 하다","한 달 만에 운동을 해요.","1か月ぶりに運動をします。"],
+["1주일 / 외출을 하다","1주일 만에 외출을 해요.","1週間ぶりに外出をします。"]
+]},
+{t:"〜만큼（〜ほど：否定文で）", ins:"「〜만큼」を使って、「〜ほど…ではない」という比較の文を作ってください。", hint:"", ex:{q:"너 / 나도 할 수 있다",a:"너만큼 나도 할 수 있어."}, items:[
+["형 / 동생도 잘 하다","형만큼 동생도 잘 해요.","兄と同じくらい弟も上手です。"],
+["(그 호텔은) 사진 / 좋지 않았다","그 호텔은 사진만큼(은) 좋지 않았어요.","そのホテルは写真ほど良くなかったです。"],
+["(이 옷은) 저 옷 / 비싸지 않다","이 옷은 저 옷만큼(은) 비싸지 않아요.","この服はあの服ほど高くありません。"],
+["(사과는) 딸기 / 달지 않다","사과는 딸기만큼(은) 달지 않아요.","りんごはいちごほど甘くありません。"],
+["(올해 여름은) 작년 여름 / 더울 것이다","올해 여름은 작년 여름만큼 더울 거예요.","今年の夏は去年の夏くらい暑いでしょう。"]
+]},
+{t:"〜만큼（〜ほど…な人はいない：最上級）", ins:"「〜만큼 …사람은/사람이 없어요」の形で、「これ以上〜な人はいない」という最上級の文を作ってください。", hint:"뛰다＝駆ける", ex:{q:"에베레스트 산 / 높다 / 산이 없다",a:"에베레스트 산만큼 높은 산은 없어요."}, items:[
+["리에 씨 / 공부를 잘 하다 / 사람이 없다","리에 씨만큼 공부를 잘 하는 사람은 없어요.","リエさんほど勉強が上手な人はいません。"],
+["언니 / 귀엽다 / 사람이 없다","언니만큼 귀여운 사람은 없어요.","姉ほど可愛い人はいません。"],
+["제주호텔 / 서비스가 좋다 / 호텔이 없다","제주호텔만큼 서비스가 좋은 호텔은 없어요.","チェジュホテルほどサービスの良いホテルはありません。"],
+["미선 씨 / 친절하다 / 사람이 없다","미선 씨만큼 친절한 사람은 없어요.","ミソンさんほど親切な人はいません。"],
+["제임스 씨 / 빨리 뛰다 / 사람을 본 적이 없다","제임스 씨만큼 빨리 뛰는 사람을 본 적이 없어요.","ジェームスさんほど速く走る人を見たことがありません。"],
+["웨이 씨 / 멋있다 / 사람이 없다","웨이 씨만큼 멋있는 사람이 없어요.","ウェイさんほどかっこいい人はいません。"]
+]},
+{t:"〜만큼（〜する分だけ）", ins:"「〜(으)ㄴ/는 만큼」を使って、「〜する分だけ、〜のぶんだけ」という比例の文を作ってください。", hint:"용돈（お小遣い）／자기（自分）／복（福）", ex:{q:"죽다 / 싫다",a:"죽을 만큼 싫어요."}, items:[
+["언니가 예쁘다 / 여동생도 예쁘다","언니가 예쁜 만큼 여동생도 예뻐요.","姉が綺麗なだけ妹も綺麗です。"],
+["나이가 많다 / 아는 것도 많다","나이가 많은 만큼 아는 것도 많아요.","年が多いだけ知っていることも多いです。"],
+["노력했다 / 결과가 나왔다","노력한 만큼 결과가 나왔어요.","努力した分だけ結果が出ました。"],
+["어머니가 용돈을 줬다 / 과자를 샀다","어머니가 용돈을 준 만큼 과자를 샀어요.","お母さんがくれたお小遣いの分だけお菓子を買いました。"],
+["먹었다 / 돈을 내세요.","먹은 만큼 돈을 내세요.","食べた分だけお金を払ってください。"],
+["자기가 하다 / 복을 받을 것이다","자기가 하는 만큼 복을 받을 거예요.","自分がした分だけ福を受けるでしょう。"],
+["노력하다 / 결과가 나오다","노력하는 만큼 결과가 나와요.","努力する分だけ結果が出ます。"],
+["먹겠다 / 가져 가세요.","먹을 만큼 가져 가세요.（뷔페にて）","食べられる分だけ持って行ってください。（ビュッフェで）"]
+]},
+{t:"〜아/어서 그런지（〜だからなのか）", ins:"「〜아/어서 그런지」を使って、「〜だからなのか（理由ははっきりしないが）」という文を作ってください。", hint:"살이 빠지다（肉が取れる）＝痩せる／고향（故郷）／시골＝田舎", ex:{q:"미선 씨가 요즘 바쁘다 / 만나기 어렵다",a:"미선 씨가 요즘 바빠서 그런지 만나기 어려워요."}, items:[
+["날마다 운동하다 / 살이 빠졌다","날마다 운동해서 그런지 살이 빠졌어요.","毎日運動しているからか痩せました。"],
+["다른 여자와 이야기하다 / 여자 친구가 화를 냈다","다른 여자와 이야기해서 그런지 여자 친구가 화를 냈어요.","他の女性と話したからか彼女が怒りました。"],
+["성격이 좋다 / 친구가 많다","성격이 좋아서 그런지 친구가 많아요.","性格がいいからか友達が多いです。"],
+["제 고향은 시골이다 / 사람들이 친절하다","제 고향은 시골이어서 그런지 사람들이 친절해요.","私の故郷は田舎だからか人々が親切です。"],
+["일요일이다 / 사람이 많다","일요일이어서 그런지 사람이 많아요.","日曜日だからか人が多いです。"]
+]},
+{t:"〜더군요（〜でしたね：気づき）", ins:"対話文を完成させてください。「〜더군요」は、自分が直接見聞きして気づいたことを述べる表現です。", hint:"강아지（子犬）", ex:{q:"가：사람이 많았어요？",a:"나：네, 많더군요."}, items:[
+["가：어제 시험이 어려웠어요？","나：네, 어렵더군요.","難しかったですね。"],
+["가：그 영화가 어땠어요？（재미있었다）","나：재미있더군요.","面白かったですね。"],
+["가：강아지가 어땠어요？（귀엽다）","나：귀엽더군요.","可愛かったですね。"],
+["가：리에 씨가 한국말을 잘 해요？","나：네, 잘 하더군요.","上手でしたね。"],
+["가：웨이 씨가 그렇게 말했어요？","나：네, 그렇게 말하더군요.","そう言っていましたね。"],
+["가：리에 씨 남자친구를 알아요？（잘 생겼다）","나：네, 잘 생겼더군요.","かっこよかったですね。"],
+["가：리에 씨가 어제 파마를 했다고 들었는데요.（예쁘게 파마했다）","나：네, 오늘 만났는데 예쁘게 파마했더군요.","きれいにパーマをかけていましたね。"]
+]},
+{t:"接続詞の選択", ins:"文脈に合う接続詞を選択肢から選んでください（複数正解の場合があります。どれか1つ書ければ正解です）。選択肢：그렇지만／그러나／하지만／그러니까／그러므로／그래서／그리고／그래도／그런데", hint:"끝（終わり）／합격（合格）／떨어지다＝落ちる", ex:{q:"여행하고 싶어요. （　　）시간이 없어요.",a:"（그렇지만）"}, alt:true, items:[
+["한국어는 너무 어려워요. （　　）끝까지 공부하겠어요.","그렇지만／그러나／하지만／그래도","しかし／でも／けれど／それでも"],
+["열심히 공부했어요. （　　）시험에 합격했어요.","그러니까／그러므로／그래서","だから／それゆえに／それで"],
+["이 책이 재미있어요. （　　）읽어 보세요.","그러니까／그러므로（※命令形で終わっているので「그래서」は使えません）","だから／それゆえに"],
+["미선 씨가 예뻐요. （　　）리에 씨도 예뻐요.","그리고","そして"],
+["열심히 공부했어요. （　　）시험에 떨어졌어요.","그렇지만／그러나／하지만／그래도／그런데","しかし／でも／けれど／それでも／ところで"],
+["잘 먹었습니다. （　　）여자 친구는 잘 지내요？","그런데","ところで"]
+]},
+{t:"〜는 줄 알았어요（〜だと思っていました）", ins:"対話文を完成させてください。「〜는/(으)ㄴ/(으)ㄹ 줄 알았어요」は、実際とは違うことを思い込んでいた時に使う表現です。", hint:"잔업（残業）／목소리＝声／굵다＝太い／분위기（雰囲気）／개봉（封切り）／통역사（通訳士）", ex:{q:"가：어제 잔업을 했어요.（학생）",a:"나：잔업요？학생인 줄 알았어요."}, items:[
+["가：쥬리 씨에게 남자 친구가 생겼어요.（남자）","나：남자 친구요? 쥬리 씨는 목소리도 굵고 화장도 안 하니까 남자인 줄 알았어요.","男だと思っていました。"],
+["가：그 부부는 집에 돌아가면 날마다 싸워요.（사이가 좋다）","나：그래요? 언제 봐도 분위기가 좋으니까 사이가 좋은 줄 알았어요.","仲がいいと思っていました。"],
+["가：새로 산 휴대폰 어때요?（쓰기 어렵다）","나：생각보다 쉬워요. 가게에서 설명을 들었을 때는 쓰기 어려울 줄 알았어요.","使うのが難しいと思っていました。"],
+["가：오늘 수업이 끝나면 어제 개봉된 영화 보러 갑시다.（보다）","나：아직 안 봤어요? 벌써 본 줄 알았어요.","見たと思っていました。"],
+["가：저는 한국어를 끝까지 공부해서 통역사가 되고 싶어요.（배우다）","나：그런 꿈이 있었군요. 취미로 배우는 줄 알았어요.","学んでいると思っていました。"],
+["가：어제 모임에 왜 안 왔어요?（하다）","나：어제요? 저는 모임을 내일 할 줄 알았어요.","するつもりだと思っていました。"]
+]},
+{t:"〜면 〜ㄹ수록（〜すればするほど）", ins:"「〜(으)면 〜(으)ㄹ수록」を使って、程度が比例して変化する文を作ってください。", hint:"월세（家賃）／팔리다＝売れる／살이 찌다（肉が付く）＝太る", ex:{q:"외국어 / 공부하다 / 어려워지다",a:"외국어는 공부하면 할수록 어려워져요."}, items:[
+["월세 / 싸다 / 좋다","월세는 싸면 쌀수록 좋아요.","家賃は安ければ安いほどいいです。"],
+["카레라이스 / 맵다 / 잘 팔리다","카레라이스는 매우면 매울수록 잘 팔려요.","カレーライスは辛ければ辛いほどよく売れます。"],
+["이 꽃 / 보다 / 예쁘다","이 꽃은 보면 볼수록 예뻐요.","この花は見れば見るほど綺麗です。"],
+["생각하다 / 화가 나다","생각하면 할수록 화가 나요.","考えれば考えるほど腹が立ちます。"],
+["연습하다 / 발음이 좋아지다","연습하면 할수록 발음이 좋아져요.","練習すればするほど発音が良くなります。"],
+["많이 먹다 / 살이 찌다","많이 먹으면 먹을수록 살 쪄요.","たくさん食べれば食べるほど太ります。"]
+]},
+{t:"〜처럼（〜のように）", ins:"「〜처럼」を使って、比喩の文を作ってください。", hint:"지나가다＝過ぎる／피부（皮膚）／정확하다（正確だ）／보이다＝見える", ex:{q:"밤 / 낮 / 밝다",a:"밤이 낮처럼 밝아요."}, items:[
+["1년 / 1주일 / 빨리 지나갔다","1년이 1주일처럼 빨리 지나갔어요.","1年が1週間のように早く過ぎました。"],
+["제 여자 친구 / 피부 / 눈 / 하얗고 깨끗하다","제 여자 친구는 피부가 눈처럼 하얗고 깨끗해요.","私の彼女は肌が雪のように白くて綺麗です。"],
+["마리아 씨 / 한국 사람 / 한국말을 잘하다","마리아 씨는 한국 사람처럼 한국말을 잘해요.","マリアさんは韓国人のように韓国語が上手です。"],
+["제임스 씨 / 아나운서 / 발음이 정확하다","제임스 씨는 아나운서처럼 발음이 정확해요.","ジェームスさんはアナウンサーのように発音が正確です。"],
+["마리아 씨가 남자 옷을 입으면 남자 / 보이다","마리아 씨가 남자 옷을 입으면 남자처럼 보여요.","マリアさんが男性の服を着ると男性のように見えます。"]
+]},
+{t:"〜덕분에（〜のおかげで）", ins:"「〜덕분에」を使って、良い結果の原因・理由を表す文を作ってください。", hint:"부부（夫婦）／외롭다＝寂しい／규칙적이다（規則的だ）／건강하다＝健康だ", ex:{q:"친구 / 학교 생활이 재미있다",a:"친구 덕분에 학교 생활이 재미있어요."}, items:[
+["부모님 / 공부할 수 있다","부모님 덕분에 공부할 수 있어요.","両親のおかげで勉強できます。"],
+["아이 / 부부가 사이 좋게 살다","아이 덕분에 부부가 사이 좋게 살아요.","子供のおかげで夫婦が仲良く暮らしています。"],
+["친구 / 유학 생활이 외롭지 않다","친구 덕분에 유학 생활이 외롭지 않아요.","友達のおかげで留学生活が寂しくありません。"],
+["규칙적인 생활 / 건강해졌다","규칙적인 생활 덕분에 건강해 었어요.","規則的な生活のおかげで健康になりました。"],
+["선생님 / 공부를 좋아하게 됐다","선생님 덕분에 공부를 좋아하게 됐어요.","先生のおかげで勉強が好きになりました。"]
+]},
+{t:"〜(으)면서（〜しながら）", ins:"「〜(으)면서」を使って、2つの動作を同時に行うことを表す文を作ってください。", hint:"인사（挨拶）／팝콘（ポップコーン）", ex:{q:"커피를 마시다 / 책을 읽다",a:"커피를 마시면서 책을 읽어요."}, items:[
+["웃다 / 인사하다","웃으면서 인사해요.","笑いながら挨拶します。"],
+["운전하다 / 음악을 듣다","운전하면서 음악을 들어요.","運転しながら音楽を聴きます。"],
+["과자를 먹다 / 숙제를 하다","과자를 먹으면서 숙제를 해요.","お菓子を食べながら宿題をします。"],
+["TV를 보다 / 밥을 먹다","TV를 보면서 밥을 먹어요.","テレビを見ながらご飯を食べます。"],
+["팝콘을 먹다 / 영화를 보다","팝콘을 먹으면서 영화를 봐요.","ポップコーンを食べながら映画を見ます。"],
+["노래를 듣다 / 요리하다","노래를 들으면서 요리해요.","歌を聞きながら料理します。"]
+]},
+{t:"受身形（〜아/어지다）", ins:"動詞を受身形（〜아/어지다）にしてください。", hint:"우산（雨傘）／실＝糸／이＝歯／살＝肉／살을 빼다（肉を減らす）＝痩せる", ex:{q:"불을 끄다",a:"불이 꺼지다"}, items:[
+["불을 켜다","불이 켜지다","火（灯り）がつく"],
+["TV를 끄다","TV가 꺼지다","テレビが消える"],
+["컵을 깨다","컵이 깨지다","コップが割れる"],
+["우산을 펴다","우산이 펴지다","傘が開く"],
+["종이를 찢다","종이가 찢어지다","紙が破れる"],
+["실을 끊다","실이 끊어지다","糸が切れる"],
+["전화를 끊다","전화가 끊어지다","電話が切れる"],
+["커피를 쏟다","커피가 쏟아지다","コーヒーがこぼれる"],
+["이를 빼다","이가 빠지다","歯が抜ける"],
+["살을 빼다","살이 빠지다","痩せる"],
+["컵을 떨어뜨리다","컵이 떨어지다","コップが落ちる"]
+]},
+{t:"〜을 테니까（〜するから：意向・推量）", ins:"「〜(으)ㄹ 테니까」を使って、自分の意向や推測を理由に相手に何かを促す文を作ってください。", hint:"그냥＝そのまま／놓다・두다＝置く／놓아두다＝置いておく", ex:{q:"지금 가다 / 기다리세요.",a:"지금 갈 테니까 기다리세요."}, items:[
+["(제가) 좋은 사람을 소개하다 / 한번 만나 보세요.","좋은 사람을 소개할 테니까 한번 만나 보세요.","いい人を紹介するので一度会ってみてください。"],
+["(제가) 도와 드리다 / 걱정하지 마세요.","도와 드릴 테니까 걱정하지 마세요.","手伝いますので心配しないでください。"],
+["제가 하다 / 그냥 놓아두세요.","제가 할 테니까 그냥 놓아두세요.","私がやりますのでそのまま置いておいてください。"],
+["시간이 많이 걸리다 / 일찍 출발합시다.","시간이 많이 걸릴 테니까 일찍 출발합시다.","時間がかかりますので早く出発しましょう。"],
+["손님이 많이 오다 / 음식을 많이 준비합시다.","손님이 많이 올 테니까 음식을 많이 준비합시다.","お客さんが多く来るでしょうから料理をたくさん準備しましょう。"]
+]}
+];
+
+const LEVELS = [
+"村人","強い村人","村の自警団","見習い兵士","兵士","熟練兵士","兵士長","冒険者","強い冒険者","熟練冒険者",
+"ベテラン冒険者","剣士","熟練剣士","剣豪","戦士","熟練戦士","重戦士","騎士","王国騎士","聖騎士",
+"聖騎士長","魔法使い","熟練魔法使い","大魔法使い","魔導士","大魔導士","魔法戦士","神官","大神官","賢者",
+"大賢者","導師","大導師","守護者","王国の守護者","英雄","大英雄","ドラゴンの騎士","勇者","大勇者",
+"聖勇者","勇者王","勇者の頂点","王国の伝説","大陸の伝説","世界の伝説","神話の英雄","神話の勇者","伝説の大勇者","神"
+];
+const LEVEL_ICONS = [
+"🌾","🪓","🏹","🔰","⚔️","🗡️","🎖️","🧭","🏕️","🪶",
+"🎒","🤺","⚡","🌪️","💪","🦾","🛡️","🐴","🏇","😇",
+"🕊️","🧙","🧙‍♂️","🪄","🔮","🌌","🔱","⛪","📿","📖",
+"🦉","🕯️","🏮","🗿","🏰","🦸","🦸‍♂️","🐉","🌟","💫",
+"👼","👑","🏆","🏛️","🌍","🌏","🌠","🔥","💥","🌈"
+];
+function tierOf(level){
+  if(level<=9) return 1;
+  if(level<=19) return 2;
+  if(level<=29) return 3;
+  if(level<=39) return 4;
+  if(level<=44) return 5;
+  if(level<=48) return 6;
+  if(level<=49) return 7;
+  return 8;
+}
+
+/* Background theme palette: 12 distinct gradients, cycled by level so
+   consecutive levels never repeat the same background. */
+const BG_PALETTE = [
+["#4a5a3a","#2e3b22","#23301c","#161b10"],
+["#3b4a63","#26364a","#1c2636","#12181f"],
+["#4a3b63","#34264a","#241c36","#16121f"],
+["#63373b","#4a2630","#361c22","#1f1215"],
+["#63552f","#4a3d20","#362c18","#1f190e"],
+["#2f6358","#204a3f","#183630","#0e1f1b"],
+["#632f52","#4a2038","#361828","#1f0e17"],
+["#2f4d63","#20374a","#182a36","#0e181f"],
+["#2f6340","#204a2e","#183621","#0e1f13"],
+["#63472f","#4a3320","#362818","#1f160e"],
+["#372f63","#26204a","#1c1836","#10101f"],
+["#555a63","#3d424a","#303436","#1a1c1f"]
+];
+function backgroundFor(level){
+  const p = BG_PALETTE[(level-1) % BG_PALETTE.length];
+  return "radial-gradient(circle at 20% 0%, "+p[0]+" 0%, transparent 45%), "+
+         "radial-gradient(circle at 85% 15%, "+p[1]+" 0%, transparent 40%), "+
+         "linear-gradient(180deg, "+p[2]+" 0%, "+p[3]+" 100%)";
+}
+
+/* =========================================================
+   State / storage
+   ========================================================= */
+let progress = {}; // {sessionIdx: {itemIdx: 'ok'|'ng'}}
+let flags = {};    // {sessionIdx: {itemIdx: true}}  — items flagged "後で解き直す"
+let currentSession = null; // a numeric SESSIONS index, or the string 'review'
+let lastLevel = 1; // used to detect level-ups; set silently on load
+const STORE_KEY = "kr_wanshu2_progress_v1";
+const FLAGS_KEY = "kr_wanshu2_flags_v1";
+
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    progress = raw ? JSON.parse(raw) : {};
+  }catch(e){
+    progress = {};
+  }
+  try{
+    const rawF = localStorage.getItem(FLAGS_KEY);
+    flags = rawF ? JSON.parse(rawF) : {};
+  }catch(e){
+    flags = {};
+  }
+}
+function saveProgress(){
+  try{
+    localStorage.setItem(STORE_KEY, JSON.stringify(progress));
+  }catch(e){ /* storage unavailable or full — fail silently */ }
+}
+function saveFlags(){
+  try{
+    localStorage.setItem(FLAGS_KEY, JSON.stringify(flags));
+  }catch(e){ /* storage unavailable or full — fail silently */ }
+}
+function isFlagged(si, ii){ return !!((flags[si]||{})[ii]); }
+function setFlag(si, ii, on){
+  if(on){ if(!flags[si]) flags[si]={}; flags[si][ii]=true; }
+  else if(flags[si]){ delete flags[si][ii]; if(Object.keys(flags[si]).length===0) delete flags[si]; }
+  saveFlags();
+}
+function flaggedPairs(){
+  const arr = [];
+  Object.keys(flags).forEach(siStr=>{
+    const si = parseInt(siStr,10);
+    Object.keys(flags[siStr]).forEach(iiStr=>{ arr.push([si, parseInt(iiStr,10)]); });
+  });
+  // stable, readable order: by session, then by question number
+  arr.sort((a,b)=> a[0]-b[0] || a[1]-b[1]);
+  return arr;
+}
+function reviewStats(){
+  const pairs = flaggedPairs();
+  let ok=0, marked=0;
+  pairs.forEach(([si,ii])=>{
+    const m = (progress[si]||{})[ii];
+    if(m==='ok'){ok++;marked++;} else if(m==='ng'){marked++;}
+  });
+  return {ok, marked, total:pairs.length};
+}
+
+function sessStats(si){
+  const items = SESSIONS[si].items;
+  let ok=0, marked=0;
+  const rec = progress[si]||{};
+  items.forEach((_,ii)=>{
+    if(rec[ii]==='ok'){ok++;marked++;}
+    else if(rec[ii]==='ng'){marked++;}
+  });
+  return {ok, marked, total:items.length};
+}
+function overallStats(){
+  let ok=0, total=0;
+  SESSIONS.forEach((s,si)=>{ total+=s.items.length; ok+=sessStats(si).ok; });
+  return {ok,total};
+}
+
+/* =========================================================
+   Sound effects (Web Audio API — no external files needed)
+   ========================================================= */
+let audioCtx = null;
+function getAudioCtx(){
+  try{
+    if(!audioCtx){ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }
+    if(audioCtx.state === 'suspended'){ audioCtx.resume(); }
+    return audioCtx;
+  }catch(e){ return null; }
+}
+function playCorrectSound(){
+  const ctx = getAudioCtx(); if(!ctx) return;
+  const t = ctx.currentTime;
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.type = 'sine';
+  o.frequency.setValueAtTime(920, t);
+  o.frequency.exponentialRampToValueAtTime(1760, t+0.11);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(0.22, t+0.015);
+  g.gain.exponentialRampToValueAtTime(0.0001, t+0.28);
+  o.connect(g); g.connect(ctx.destination);
+  o.start(t); o.stop(t+0.3);
+}
+function playFanfareSound(){
+  const ctx = getAudioCtx(); if(!ctx) return;
+  const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+  notes.forEach((freq,i)=>{
+    const t = ctx.currentTime + i*0.13;
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(freq, t);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.24, t+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t+0.42);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(t); o.stop(t+0.45);
+  });
+}
+
+/* =========================================================
+   Level calculation
+   ========================================================= */
+function computeLevelInfo(){
+  const {ok,total} = overallStats();
+  const perLevel = total/50;
+  let level = perLevel>0 ? Math.floor(ok/perLevel)+1 : 1;
+  if(level>50) level=50;
+  if(level<1) level=1;
+  return {level, ok, total, perLevel};
+}
+
+function showLevelUp(fromLevel, toLevel){
+  document.getElementById('lvupIcon').textContent = LEVEL_ICONS[toLevel-1];
+  document.getElementById('lvupFrom').textContent = LEVELS[fromLevel-1]+'（Lv.'+fromLevel+'）';
+  document.getElementById('lvupTo').textContent = LEVELS[toLevel-1];
+  document.getElementById('lvupSub').textContent = 'Lv.'+fromLevel+' → Lv.'+toLevel;
+  document.getElementById('levelupModal').classList.add('open');
+  playFanfareSound();
+  const flash = document.getElementById('levelFlash');
+  flash.classList.remove('burst'); void flash.offsetWidth; flash.classList.add('burst');
+}
+document.getElementById('lvupClose').addEventListener('click', ()=>{
+  document.getElementById('levelupModal').classList.remove('open');
+});
+
+/* =========================================================
+   Rendering
+   ========================================================= */
+function applyLevelUI(info){
+  const {level, ok, total, perLevel} = info;
+  const tier = tierOf(level);
+  document.getElementById('gamehead').className = 'gamehead tier-'+tier;
+  document.getElementById('badgeIcon').textContent = LEVEL_ICONS[level-1];
+  document.getElementById('lvNum').textContent = 'Lv.'+level;
+  document.getElementById('lvName').textContent = LEVELS[level-1];
+  document.getElementById('xpText').textContent = '正解 '+ok+'問';
+  if(level>=50){
+    document.getElementById('xpBar').style.width='100%';
+    document.getElementById('xpNext').textContent = '最高レベル到達！';
+  }else{
+    const floorNeed = Math.floor(perLevel*(level-1));
+    const nextNeed = Math.floor(perLevel*level);
+    const span = Math.max(1,nextNeed-floorNeed);
+    const cur = Math.max(0,ok-floorNeed);
+    const pct = Math.min(100, (cur/span)*100);
+    document.getElementById('xpBar').style.width = pct+'%';
+    document.getElementById('xpNext').textContent = '次のレベルまであと '+Math.max(0,nextNeed-ok)+'問';
+  }
+  document.getElementById('toggleCnt').textContent = ok+' / '+total+' 問正解';
+  document.body.style.background = backgroundFor(level);
+}
+
+/* announce=true : compare against lastLevel and trigger fanfare/modal on level-up.
+   announce=false: silently sync (used on initial load / after reset). */
+function renderLevel(announce){
+  const info = computeLevelInfo();
+  if(announce && info.level > lastLevel){
+    const prev = lastLevel;
+    applyLevelUI(info);
+    lastLevel = info.level;
+    setTimeout(()=> showLevelUp(prev, info.level), 250);
+  }else{
+    applyLevelUI(info);
+    lastLevel = info.level;
+  }
+}
+
+function statusOf(si){
+  const s = sessStats(si);
+  if(s.marked===0) return 'untouched';
+  if(s.ok===s.total) return 'perfect';
+  return 'progress';
+}
+
+function renderSessionGrid(){
+  const grid = document.getElementById('sessGrid');
+  grid.innerHTML = '';
+
+  // "後で解き直す" review tile — always shown first
+  const rstat = reviewStats();
+  const reviewTile = document.createElement('div');
+  reviewTile.className = 'sess-tile sess-tile-review' + (currentSession==='review'?' active':'');
+  reviewTile.innerHTML = '<div class="snum">🔖 REVIEW</div><div class="stitle">後で解き直す</div><div class="sfrac">'+rstat.total+' 問 チェック中</div>';
+  reviewTile.onclick = ()=>{ currentSession='review'; renderAll(false); document.getElementById('sessionView').scrollIntoView({behavior:'smooth',block:'start'}); };
+  grid.appendChild(reviewTile);
+
+  SESSIONS.forEach((s,si)=>{
+    const stat = sessStats(si);
+    const st = statusOf(si);
+    const tile = document.createElement('div');
+    tile.className = 'sess-tile st-'+st + (currentSession===si?' active':'');
+    tile.innerHTML = '<div class="snum">Q'+(si+1)+'</div><div class="stitle">'+escapeHtml(s.t)+'</div><div class="sfrac">'+stat.ok+' / '+stat.total+' 問</div>';
+    tile.onclick = ()=>{ currentSession=si; renderAll(false); document.getElementById('sessionView').scrollIntoView({behavior:'smooth',block:'start'}); };
+    grid.appendChild(tile);
+  });
+  const {ok,total} = overallStats();
+  document.getElementById('overallFrac').textContent = ok+' / '+total+' 問';
+  document.getElementById('overallBar').style.width = (total? (ok/total*100):0)+'%';
+}
+
+function escapeHtml(str){
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* =========================================================
+   Answer matching (tolerant of spacing/punctuation and
+   optional parenthetical particles; supports comma-separated
+   alternative answers such as the conjunction-choice session)
+   ========================================================= */
+function stripForCompare(s){
+  return (s||'').replace(/[\s.,!?？。、／\/·]/g,'');
+}
+function variantsOf(s){
+  const keepContent = s.replace(/[()（）]/g,'');
+  const dropContent = s.replace(/[（(][^）)]*[)）]/g,'');
+  return [stripForCompare(keepContent), stripForCompare(dropContent)];
+}
+function isAnswerCorrect(userInput, answerField, useSlashAlternatives){
+  const user = stripForCompare(userInput);
+  if(!user) return false;
+  const tokens = useSlashAlternatives
+    ? answerField.split(/[／\/]/).map(t=>t.trim()).filter(Boolean)
+    : [answerField];
+  for(const tkn of tokens){
+    if(variantsOf(tkn).indexOf(user)!==-1) return true;
+  }
+  return false;
+}
+/* Dialogue-style answers are stored as e.g. "나：책을 읽거나 영화를 보거나 해요."
+   The 가/나 speaker label is context, not something the learner should have
+   to type — split it off so it can be shown as a fixed label beside the
+   input box instead of being required (and compared) as part of the answer. */
+function splitSpeakerPrefix(s){
+  const m = (s||'').match(/^(나|가)\s*[:：]\s*/);
+  if(m){ return {prefix:m[0], core:s.slice(m[0].length)}; }
+  return {prefix:'', core:s};
+}
+
+/* =========================================================
+   Speech (read the Korean answer aloud) — uses the browser's
+   built-in Web Speech API, so it works fully offline.
+   ========================================================= */
+function cleanForSpeech(s){
+  let t = (s||'').replace(/^(나|가)\s*[:：]\s*/, ''); // drop speaker label
+  t = t.replace(/[（(][^）)]*[)）]/g, ''); // drop Japanese parenthetical notes
+  return t.trim();
+}
+let _koVoice = null;
+function primeVoices(){
+  if(!('speechSynthesis' in window)) return;
+  const pick = ()=>{
+    const voices = window.speechSynthesis.getVoices();
+    _koVoice = voices.find(v=>v.lang && v.lang.toLowerCase().startsWith('ko')) || null;
+  };
+  pick();
+  window.speechSynthesis.onvoiceschanged = pick;
+}
+function speakKorean(text){
+  const clean = cleanForSpeech(text);
+  if(!clean) return;
+  if(!('speechSynthesis' in window)){
+    alert('お使いの端末・ブラウザは音声読み上げに対応していないようです。');
+    return;
+  }
+  try{
+    window.speechSynthesis.cancel(); // stop anything already playing
+    const utter = new SpeechSynthesisUtterance(clean);
+    utter.lang = 'ko-KR';
+    utter.rate = 0.9;
+    if(_koVoice) utter.voice = _koVoice;
+    window.speechSynthesis.speak(utter);
+  }catch(e){ /* ignore playback errors */ }
+}
+
+/* Builds the HTML for one question card. Used both by the normal
+   per-session view and by the "後で解き直す" review view — the card
+   always carries its *real* session/item index (data-si/data-ii) so
+   grading always writes back to the one shared progress record. */
+function buildQuestionCard(si, ii, opts){
+  opts = opts || {};
+  const [q,a,tr] = SESSIONS[si].items[ii];
+  const mark = (progress[si]||{})[ii];
+  const preShown = (mark==='ok'||mark==='ng');
+  const {prefix} = splitSpeakerPrefix(a);
+  const flagged = isFlagged(si, ii);
+
+  let html = '<div class="qitem'+(mark==='ok'?' judged-ok':mark==='ng'?' judged-ng':'')+'" id="qitem-'+si+'-'+ii+'" data-si="'+si+'" data-ii="'+ii+'">';
+  if(opts.showOrigin){
+    html += '<div class="origin-label">'+escapeHtml(SESSIONS[si].t)+'</div>';
+  }
+  html += '<div class="qnum">Q'+(ii+1)+
+    (mark==='ok'?'<span class="judge-pop ok">○</span>':'')+
+    (mark==='ng'?'<span class="judge-pop ng">✕</span>':'')+
+    '</div>';
+  html += '<div class="qtext">'+escapeHtml(q)+'</div>';
+  html += '<div class="input-row">';
+  if(prefix){ html += '<span class="speaker-tag">'+escapeHtml(prefix)+'</span>'; }
+  html += '<input type="text" class="ans-input" placeholder="ここに韓国語で答えを書いてください">';
+  html += '</div>';
+  html += '<div class="btnrow">';
+  html += '<button class="checkbtn" data-action="check">✏️ 答え合わせ</button>';
+  html += '<button class="smallbtn'+(preShown?' show':'')+'" data-action="toggleAnswer">'+(preShown?'答えを隠す':'答えを見る')+'</button>';
+  if(opts.reviewMode){
+    html += '<button class="flagbtn revert" data-action="unflag">↩️ もとに戻す</button>';
+  }else{
+    html += '<button class="flagbtn'+(flagged?' active':'')+'" data-action="flag">'+(flagged?'🔖 チェック済み':'🔖 後で解き直す')+'</button>';
+  }
+  html += '</div>';
+  html += '<div class="answerbox'+(preShown?' shown':'')+'" id="ans-'+si+'-'+ii+'">';
+  html += '<div class="ans-kr-row"><div class="ans-kr" id="ans-kr-'+si+'-'+ii+'">'+escapeHtml(a)+'</div>';
+  html += '<button class="speakbtn" data-action="speak" data-target="ans-kr-'+si+'-'+ii+'" title="韓国語を聞く" aria-label="韓国語を聞く">🔊</button></div>';
+  html += '<div class="ans-jp">'+escapeHtml(tr)+'</div>';
+  html += '</div>';
+  html += '</div>';
+  return html;
+}
+
+function renderSessionView(){
+  const view = document.getElementById('sessionView');
+
+  if(currentSession==='review'){
+    const pairs = flaggedPairs();
+    let html = '';
+    html += '<div class="sess-header">';
+    html += '<div class="sess-eyebrow">🔖 REVIEW</div>';
+    html += '<div class="sess-title">後で解き直す</div>';
+    html += '<div class="sess-instruction">各設問の「🔖 後で解き直す」ボタンでチェックした問題だけが、ここに集まります。解けたら「↩️ もとに戻す」でこの一覧から外れます。</div>';
+    html += '</div>';
+    if(pairs.length===0){
+      html += '<div class="empty-state"><span class="big">🔖</span>まだチェックした問題がありません。<br>各設問の「🔖 後で解き直す」ボタンを押すと、ここに追加されます。</div>';
+    }else{
+      html += '<button class="gradebtn" data-action="grade">📮 この一覧を採点する</button>';
+      html += '<button class="resetbtn" data-action="clearFlags">🔖 チェックをすべて解除する</button>';
+      pairs.forEach(([si,ii])=>{ html += buildQuestionCard(si, ii, {showOrigin:true, reviewMode:true}); });
+      html += '<button class="gradebtn" data-action="grade">📮 この一覧を採点する</button>';
+      html += '<button class="resetbtn" data-action="clearFlags">🔖 チェックをすべて解除する</button>';
+    }
+    view.innerHTML = html;
+    return;
+  }
+
+  if(currentSession===null){
+    view.innerHTML = '<div class="empty-state"><span class="big">📜</span>上の「セッション一覧」からクエストを選んでください。</div>';
+    return;
+  }
+
+  const si = currentSession;
+  const s = SESSIONS[si];
+  let html = '';
+  html += '<div class="sess-header">';
+  html += '<div class="sess-eyebrow">QUEST '+(si+1)+' / '+SESSIONS.length+'</div>';
+  html += '<div class="sess-title">'+escapeHtml(s.t)+'</div>';
+  html += '<div class="sess-instruction">'+escapeHtml(s.ins)+'</div>';
+  if(s.hint){ html += '<div class="sess-hint"><b>ヒント：</b>'+escapeHtml(s.hint)+'</div>'; }
+  if(s.ex){ html += '<div class="sess-example"><span class="ex-label">例）</span>'+escapeHtml(s.ex.q)+' → <span class="ex-answer" id="ex-ans-'+si+'">'+escapeHtml(s.ex.a)+'</span> <button class="speakbtn small" data-action="speak" data-target="ex-ans-'+si+'" title="韓国語を聞く" aria-label="韓国語を聞く">🔊</button></div>'; }
+  html += '</div>';
+  html += '<button class="gradebtn" data-action="grade">📮 このセッションを採点する</button>';
+  html += '<button class="resetbtn" data-action="resetSession">このセッションをリセットする</button>';
+
+  s.items.forEach((it,ii)=>{ html += buildQuestionCard(si, ii, {}); });
+
+  html += '<button class="gradebtn" data-action="grade">📮 このセッションを採点する</button>';
+  html += '<button class="resetbtn" data-action="resetSession">このセッションをリセットする</button>';
+
+  view.innerHTML = html;
+}
+
+/* Single delegated click handler for the whole session view — set up
+   once (see init), so it survives view.innerHTML re-renders. */
+function setupSessionViewDelegation(){
+  document.getElementById('sessionView').addEventListener('click', (e)=>{
+    const btn = e.target.closest('button');
+    if(!btn) return;
+    const action = btn.dataset.action;
+    if(!action) return;
+
+    if(action==='speak'){
+      const el = document.getElementById(btn.dataset.target);
+      if(el) speakKorean(el.textContent);
+      return;
+    }
+
+    const card = btn.closest('.qitem');
+    if(card){
+      const si = parseInt(card.dataset.si,10), ii = parseInt(card.dataset.ii,10);
+      if(action==='check'){ checkAnswer(si, ii); return; }
+      if(action==='toggleAnswer'){ toggleAnswerBox(si, ii, btn); return; }
+      if(action==='flag'){ setFlag(si, ii, true); renderSessionGrid(); rerenderCard(si, ii); return; }
+      if(action==='unflag'){ setFlag(si, ii, false); renderSessionGrid(); renderSessionView(); return; }
+      return;
+    }
+
+    if(action==='grade'){ showStamp(currentSession); return; }
+    if(action==='resetSession'){ confirmReset('session', currentSession); return; }
+    if(action==='clearFlags'){ confirmClearFlags(); return; }
+  });
+}
+
+function toggleAnswerBox(si, ii, btn){
+  const box = document.getElementById('ans-'+si+'-'+ii);
+  if(!box) return;
+  const shown = box.classList.toggle('shown');
+  btn.textContent = shown ? '答えを隠す' : '答えを見る';
+  btn.classList.toggle('show', shown);
+}
+
+/* Re-render just one card in place (used after flagging, to update its
+   button state without disturbing the rest of the list / other inputs). */
+function rerenderCard(si, ii){
+  const old = document.getElementById('qitem-'+si+'-'+ii);
+  if(!old) return;
+  const prevInput = old.querySelector('.ans-input');
+  const prevVal = prevInput ? prevInput.value : '';
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = buildQuestionCard(si, ii, {showOrigin: old.querySelector('.origin-label')!==null});
+  const fresh = wrapper.firstElementChild;
+  old.replaceWith(fresh);
+  if(prevVal){
+    const freshInput = fresh.querySelector('.ans-input');
+    if(freshInput) freshInput.value = prevVal;
+  }
+}
+
+/* Grade a single question: compare the typed answer against the
+   correct answer, mark ○/✕, award points, play sound, and refresh
+   the header/level/grid — without re-rendering the whole session
+   view (so other in-progress answers the learner has typed are
+   not cleared). */
+function checkAnswer(si, ii){
+  const qitem = document.getElementById('qitem-'+si+'-'+ii);
+  const input = qitem ? qitem.querySelector('.ans-input') : null;
+  const userVal = input ? input.value : '';
+  const item = SESSIONS[si].items[ii];
+  const a = item[1];
+  const {core} = splitSpeakerPrefix(a);
+  const correct = isAnswerCorrect(userVal, core, !!SESSIONS[si].alt);
+
+  if(!progress[si]) progress[si] = {};
+  progress[si][ii] = correct ? 'ok' : 'ng';
+  saveProgress();
+
+  // reveal the answer
+  const box = document.getElementById('ans-'+si+'-'+ii);
+  if(box) box.classList.add('shown');
+  const toggleBtn = qitem ? qitem.querySelector('[data-action="toggleAnswer"]') : null;
+  if(toggleBtn){ toggleBtn.textContent = '答えを隠す'; toggleBtn.classList.add('show'); }
+
+  // mark the question card
+  if(qitem){
+    qitem.classList.remove('judged-ok','judged-ng');
+    qitem.classList.add(correct ? 'judged-ok' : 'judged-ng');
+    const qnum = qitem.querySelector('.qnum');
+    if(qnum){
+      qnum.innerHTML = 'Q'+(ii+1)+'<span class="judge-pop '+(correct?'ok':'ng')+'">'+(correct?'○':'✕')+'</span>';
+    }
+  }
+
+  if(correct){ playCorrectSound(); }
+
+  // refresh header stats / level (with level-up detection) and the session grid
+  renderLevel(true);
+  renderSessionGrid();
+}
+
+function renderAll(announce){
+  renderLevel(!!announce);
+  renderSessionGrid();
+  renderSessionView();
+}
+
+/* =========================================================
+   Stamp modal
+   ========================================================= */
+function showStamp(scope){
+  let stat, title;
+  if(scope==='review'){
+    stat = reviewStats();
+    title = '「後で解き直す」の採点結果';
+  }else{
+    stat = sessStats(scope);
+    title = SESSIONS[scope].t + ' の採点結果';
+  }
+  const score = stat.ok*10;
+  const maxScore = stat.total*10;
+  document.getElementById('stampTitle').textContent = title;
+  document.getElementById('stampScore').textContent = score+'点';
+  document.getElementById('stampSub').textContent = stat.ok+' / '+stat.total+' 問正解 （満点 '+maxScore+'点）';
+  const circle = document.getElementById('stampCircle');
+  if(stat.ok===stat.total && stat.total>0){
+    circle.style.borderColor = '#3f7a52'; circle.style.color='#3f7a52';
+    circle.style.boxShadow = '0 0 0 4px #fff, 0 0 0 5px #3f7a52';
+  }else{
+    circle.style.borderColor = '#a4423a'; circle.style.color='#a4423a';
+    circle.style.boxShadow = '0 0 0 4px #fff, 0 0 0 5px #a4423a';
+  }
+  circle.style.animation='none'; void circle.offsetWidth; circle.style.animation='stampIn .35s cubic-bezier(.2,1.6,.4,1)';
+  document.getElementById('stampModal').classList.add('open');
+}
+document.getElementById('stampClose').onclick = ()=> document.getElementById('stampModal').classList.remove('open');
+
+/* =========================================================
+   Confirm / reset modal
+   ========================================================= */
+let pendingReset = null;
+function confirmReset(kind, si){
+  pendingReset = {kind, si};
+  document.getElementById('confirmTitle').textContent = kind==='all' ? '全体の記録をリセットしますか？' : 'このセッションをリセットしますか？';
+  document.getElementById('confirmText').textContent = 'この操作を行うと、' + (kind==='all' ? '全てのセッションの' : 'このセッションの') + '記録は元に戻せません。本当によろしいですか？';
+  document.getElementById('confirmModal').classList.add('open');
+}
+/* Generic confirmation used by data-transfer (import file / apply passcode) —
+   runs `action()` (which should mutate the global `progress` object) if confirmed. */
+function confirmCustom(title, text, action){
+  pendingReset = {kind:'custom', action};
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmText').textContent = text;
+  document.getElementById('confirmModal').classList.add('open');
+}
+function confirmClearFlags(){
+  confirmCustom(
+    'チェックをすべて解除しますか？',
+    '「後で解き直す」のチェックがすべて外れます（正解・不正解の記録自体は消えません）。よろしいですか？',
+    ()=>{ flags = {}; saveFlags(); }
+  );
+}
+document.getElementById('confirmCancel').onclick = ()=>{ pendingReset=null; document.getElementById('confirmModal').classList.remove('open'); };
+document.getElementById('confirmOk').onclick = async ()=>{
+  if(pendingReset){
+    if(pendingReset.kind==='all'){ progress = {}; }
+    else if(pendingReset.kind==='session'){ delete progress[pendingReset.si]; }
+    else if(pendingReset.kind==='custom'){ pendingReset.action(); }
+    saveProgress();
+    // sync level silently (no fanfare on reset/import) then refresh everything
+    renderAll(false);
+  }
+  pendingReset=null;
+  document.getElementById('confirmModal').classList.remove('open');
+};
+document.getElementById('resetAllBtn').addEventListener('click', ()=> confirmReset('all'));
+
+/* =========================================================
+   Data transfer: file export/import + "revival spell" passcode
+   ========================================================= */
+let _linearOrderCache = null;
+function linearOrder(){
+  if(_linearOrderCache) return _linearOrderCache;
+  const arr = [];
+  SESSIONS.forEach((s,si)=>{ s.items.forEach((_,ii)=> arr.push([si,ii])); });
+  _linearOrderCache = arr;
+  return arr;
+}
+function buildStateString(){
+  const order = linearOrder();
+  let str = '';
+  order.forEach(([si,ii])=>{
+    const m = (progress[si]||{})[ii];
+    str += (m==='ok') ? 'O' : (m==='ng') ? 'X' : '.';
+  });
+  return str;
+}
+function rleEncode(str){
+  let out=''; let i=0;
+  while(i<str.length){
+    let j=i; while(j<str.length && str[j]===str[i]) j++;
+    const runLen = j-i;
+    out += (runLen>1 ? String(runLen) : '') + str[i];
+    i=j;
+  }
+  return out;
+}
+function rleDecode(rle){
+  let out=''; let i=0;
+  while(i<rle.length){
+    let numStr='';
+    while(i<rle.length && /[0-9]/.test(rle[i])){ numStr += rle[i]; i++; }
+    const count = numStr ? parseInt(numStr,10) : 1;
+    const ch = rle[i]; i++;
+    if(ch===undefined) break;
+    out += ch.repeat(count);
+  }
+  return out;
+}
+function checksumOf(str){
+  let sum = 0;
+  for(let i=0;i<str.length;i++){ sum = (sum + str.charCodeAt(i)*(i+7)) % 1296; }
+  return sum.toString(36).toUpperCase().padStart(2,'0');
+}
+function generatePasscode(){
+  const rle = rleEncode(buildStateString());
+  return 'KQ1-'+rle+'-'+checksumOf(rle);
+}
+/* Returns the decoded progress object, or throws an Error with a
+   user-facing Japanese message if the code is invalid. */
+function decodePasscode(inputRaw){
+  const input = (inputRaw||'').replace(/\s+/g,'').toUpperCase();
+  const m = input.match(/^KQ1-([.OX0-9]+)-([0-9A-Z]{2})$/);
+  if(!m){ throw new Error('呪文の形式が正しくありません。コピーした呪文をそのまま貼り付けてください。'); }
+  const rle = m[1], cs = m[2];
+  if(checksumOf(rle) !== cs){ throw new Error('呪文が正しくないようです（入力ミスの可能性があります）。もう一度確認してください。'); }
+  const decoded = rleDecode(rle);
+  const order = linearOrder();
+  if(decoded.length !== order.length){ throw new Error('この呪文は、現在のバージョンのアプリと合っていないようです。'); }
+  const newProgress = {};
+  order.forEach(([si,ii], idx)=>{
+    const ch = decoded[idx];
+    if(ch==='O'){ if(!newProgress[si]) newProgress[si]={}; newProgress[si][ii]='ok'; }
+    else if(ch==='X'){ if(!newProgress[si]) newProgress[si]={}; newProgress[si][ii]='ng'; }
+  });
+  return newProgress;
+}
+
+function exportToFile(){
+  const payload = { app:'korean_quest', version:1, exportedAt:new Date().toISOString(), progress:progress };
+  const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const stamp = new Date();
+  const pad = n=>String(n).padStart(2,'0');
+  const fname = 'korean_quest_progress_'+stamp.getFullYear()+pad(stamp.getMonth()+1)+pad(stamp.getDate())+'_'+pad(stamp.getHours())+pad(stamp.getMinutes())+'.json';
+  const a = document.createElement('a');
+  a.href = url; a.download = fname;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 3000);
+}
+
+function openTransferModal(){
+  document.getElementById('passcodeBox').textContent = generatePasscode();
+  document.getElementById('passcodeInput').value = '';
+  document.getElementById('passcodeError').style.display = 'none';
+  document.getElementById('transferModal').classList.add('open');
+}
+document.getElementById('transferBar').addEventListener('click', openTransferModal);
+document.getElementById('transferClose').addEventListener('click', ()=>{
+  document.getElementById('transferModal').classList.remove('open');
+});
+
+document.getElementById('exportFileBtn').addEventListener('click', exportToFile);
+document.getElementById('importFileBtn').addEventListener('click', ()=>{
+  document.getElementById('importFileInput').click();
+});
+document.getElementById('importFileInput').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  e.target.value = '';
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      const data = JSON.parse(reader.result);
+      if(!data || typeof data.progress !== 'object') throw new Error('invalid file');
+      document.getElementById('transferModal').classList.remove('open');
+      confirmCustom('ファイルから記録を読み込みますか？','現在の記録は、このファイルの内容で上書きされます。本当によろしいですか？', ()=>{ progress = data.progress; });
+    }catch(err){
+      alert('ファイルの形式が正しくないか、読み込みに失敗しました。書き出したファイルをそのまま使ってください。');
+    }
+  };
+  reader.readAsText(file);
+});
+
+document.getElementById('copyPasscodeBtn').addEventListener('click', async ()=>{
+  const code = document.getElementById('passcodeBox').textContent;
+  const btn = document.getElementById('copyPasscodeBtn');
+  try{
+    await navigator.clipboard.writeText(code);
+    btn.textContent = '✅ コピーしました';
+  }catch(e){
+    // fallback: select the text so the user can copy manually
+    const range = document.createRange();
+    range.selectNodeContents(document.getElementById('passcodeBox'));
+    const sel = window.getSelection();
+    sel.removeAllRanges(); sel.addRange(range);
+    btn.textContent = '📋 選択したのでコピーしてください';
+  }
+  setTimeout(()=>{ btn.textContent = '📋 呪文をコピーする'; }, 2200);
+});
+
+document.getElementById('applyPasscodeBtn').addEventListener('click', ()=>{
+  const errBox = document.getElementById('passcodeError');
+  try{
+    const decoded = decodePasscode(document.getElementById('passcodeInput').value);
+    errBox.style.display = 'none';
+    document.getElementById('transferModal').classList.remove('open');
+    confirmCustom('この呪文を反映しますか？','現在の記録は、入力した呪文の内容で上書きされます。本当によろしいですか？', ()=>{ progress = decoded; });
+  }catch(err){
+    errBox.textContent = err.message;
+    errBox.style.display = 'block';
+  }
+});
+
+/* =========================================================
+   Toggle bar
+   ========================================================= */
+document.getElementById('toggleBar').addEventListener('click', ()=>{
+  const panel = document.getElementById('sessionPanel');
+  const arrow = document.getElementById('arrowIcon');
+  const open = panel.classList.toggle('open');
+  arrow.classList.toggle('open', open);
+});
+
+/* =========================================================
+   Init
+   ========================================================= */
+(async function init(){
+  setupSessionViewDelegation();
+  primeVoices();
+  await loadProgress();
+  renderAll();
+  // Auto open session list on first load if nothing started
+  const {ok} = overallStats();
+  if(ok===0){
+    document.getElementById('sessionPanel').classList.add('open');
+    document.getElementById('arrowIcon').classList.add('open');
+  }
+})();
+</script>
+</body>
+</html>
