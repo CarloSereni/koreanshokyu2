@@ -389,8 +389,122 @@ body{
 
 .footer-note{text-align:center;color:#8f8ac0;font-size:.68rem;margin-top:24px;line-height:1.7;}
 
+
+/* ---------- 学習日数 ---------- */
+.statsrow{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;
+}
+.statcell{
+  background:linear-gradient(135deg,#26264a,#1c1c38);
+  border:1px solid #ffffff20;border-radius:12px;
+  padding:9px 6px 8px;text-align:center;min-width:0;
+}
+.statcell .sv{color:var(--gold-light);font-family:'Noto Serif JP',serif;font-weight:900;font-size:1.35rem;line-height:1.1;}
+.statcell .sv::after{content:"日";font-size:.7rem;font-weight:700;margin-left:2px;color:#cfcbe8;}
+.statcell .sl{color:#b9b3de;font-size:.64rem;margin-top:4px;line-height:1.3;}
+
+/* ---------- 目標カード ---------- */
+.goalcard{
+  background:linear-gradient(135deg,#2a2748,#1b1a35);
+  border:1px solid #f0d68a40;border-radius:14px;
+  padding:12px 12px 14px;margin-bottom:10px;color:#e7e3fb;
+}
+.goal-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.goal-title{color:#f1e9c8;font-weight:700;font-family:'Noto Serif JP',serif;font-size:.92rem;}
+.goal-tabs{display:flex;background:#00000050;border:1px solid #ffffff22;border-radius:999px;padding:3px;gap:2px;}
+.goal-tab{
+  border:none;background:transparent;color:#b9b3de;font-weight:700;font-size:.76rem;
+  padding:7px 14px;border-radius:999px;cursor:pointer;font-family:inherit;
+}
+.goal-tab.active{background:linear-gradient(135deg,#c9a24b,#a97f2c);color:#2c2214;}
+.goal-range{font-size:.95rem;color:#fff;font-weight:800;font-family:'Noto Serif JP',serif;}
+.goal-range span{font-size:.72rem;font-weight:500;color:#b9b3de;margin-left:6px;font-family:'Noto Sans JP',sans-serif;}
+.goal-date{font-size:.76rem;color:#d9d5f2;margin-top:3px;}
+.goal-date .warn{color:#ffb4a8;font-weight:700;}
+.goal-quota{
+  margin-top:10px;background:#00000040;border:1px solid #ffffff18;border-radius:12px;
+  padding:9px 12px;display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;
+}
+.goal-quota .q-main{font-size:.8rem;color:#e7e3fb;}
+.goal-quota .q-main b{color:var(--gold-light);font-size:1.5rem;font-family:'Noto Serif JP',serif;margin:0 3px;}
+.goal-quota .q-sub{font-size:.72rem;color:#b9b3de;}
+.gbar-row{margin-top:10px;}
+.gbar-label{display:flex;justify-content:space-between;font-size:.74rem;color:#d9d5f2;margin-bottom:4px;}
+.gbar-label b{color:#fff;font-weight:700;}
+.gbar-line{display:flex;align-items:center;gap:8px;}
+.gbar{flex:1;height:14px;border-radius:8px;background:#00000066;border:1px solid #ffffff22;overflow:hidden;}
+.gbar-in{height:100%;border-radius:8px;transition:width .5s ease;}
+.gbar-in.today{background:linear-gradient(90deg,#e8c15a,#fff3c4,#e8c15a);}
+.gbar-in.all{background:linear-gradient(90deg,#5fbf7a,#8fe0a3);}
+.gbar-pct{flex:0 0 46px;text-align:right;font-weight:800;font-size:.86rem;color:#fff;font-variant-numeric:tabular-nums;}
+.goal-note{margin-top:10px;font-size:.76rem;line-height:1.6;border-radius:10px;padding:8px 10px;}
+.goal-note.warn{background:#4a1f1b;color:#ffcfc7;border:1px solid #a4423a88;}
+.goal-note.win{background:#1f4a2e;color:#cdf3d8;border:1px solid #3fbf6f88;}
+.goal-empty{font-size:.78rem;line-height:1.7;color:#cfcbe8;margin-bottom:10px;}
+.goal-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.goal-btn{
+  flex:1 1 auto;padding:12px 14px;border-radius:12px;border:1px solid #ffffff33;
+  background:#3a3560;color:#fff;font-weight:800;font-size:.86rem;cursor:pointer;font-family:inherit;
+}
+.goal-btn.primary{flex:2 1 180px;background:linear-gradient(135deg,#c9a24b,#a97f2c);color:#2c2214;border:none;}
+.goal-btn.danger{background:#3a1717;color:#f2b8b0;border-color:#a4423a88;}
+.goal-btn:disabled{opacity:.45;cursor:default;}
+.goal-btn:active:not(:disabled){transform:scale(.98);}
+.goal-form label{display:block;font-size:.76rem;color:#d9d5f2;margin-top:10px;}
+.goal-form select,.goal-form input[type=date]{
+  display:block;width:100%;margin-top:4px;padding:10px;border-radius:10px;
+  border:1px solid #cda34988;background:#fffdf5;color:var(--ink);font-size:.86rem;font-family:inherit;
+}
+.goal-preview{margin-top:12px;background:#00000040;border:1px solid #ffffff18;border-radius:10px;padding:9px 12px;font-size:.78rem;line-height:1.6;color:#e7e3fb;}
+.goal-preview b{color:var(--gold-light);}
+.goal-error{display:none;margin-top:8px;color:#ffb4a8;font-size:.78rem;}
+
+/* ---------- 学習バー(下部固定) ---------- */
+.studybar{
+  position:fixed;left:50%;transform:translate(-50%,140%);bottom:calc(10px + env(safe-area-inset-bottom,0px));
+  width:calc(100% - 20px);max-width:740px;z-index:80;
+  background:linear-gradient(135deg,#2a2748,#171531);border:1px solid #f0d68a66;
+  border-radius:14px;padding:10px 10px 8px 12px;box-shadow:0 10px 30px #000b;
+  transition:transform .25s ease;
+}
+.studybar.show{transform:translate(-50%,0);}
+.studybar.done{border-color:#8fe0a3;box-shadow:0 10px 30px #000b,0 0 18px #3fbf6f55;}
+.studybar .sb-row{display:flex;align-items:center;gap:8px;}
+.studybar .sb-info{flex:1;min-width:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.studybar .sb-kind{font-size:.64rem;font-weight:800;background:#f0d68a;color:#2c2214;border-radius:999px;padding:2px 8px;}
+.studybar .sb-text{font-size:.82rem;font-weight:700;color:#fff;}
+.studybar .sb-next{
+  flex:0 0 auto;border:none;border-radius:10px;padding:10px 12px;font-weight:900;font-size:.8rem;cursor:pointer;
+  background:linear-gradient(135deg,#c9a24b,#a97f2c);color:#2c2214;font-family:inherit;
+}
+.studybar .sb-close{flex:0 0 auto;border:none;background:transparent;color:#b9b3de;font-size:1rem;padding:6px;cursor:pointer;}
+.studybar .sb-bar{height:6px;border-radius:4px;background:#00000066;margin-top:7px;overflow:hidden;}
+.studybar .sb-bar>div{height:100%;background:linear-gradient(90deg,#e8c15a,#fff3c4);transition:width .4s ease;}
+body.has-studybar{padding-bottom:110px;}
+
+.qitem.jump-hl{animation:jumpHl 1.8s ease-out;}
+@keyframes jumpHl{0%{box-shadow:0 0 0 0 #cda349;}25%{box-shadow:0 0 0 6px #cda349aa;}100%{box-shadow:0 0 0 0 #cda34900;}}
+
+#toast{
+  position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);
+  background:#171531;color:#fff3c4;border:1px solid #f0d68a88;border-radius:999px;
+  padding:10px 18px;font-weight:800;font-size:.86rem;z-index:95;opacity:0;pointer-events:none;
+  transition:opacity .25s,transform .25s;box-shadow:0 8px 24px #000a;
+}
+#toast.show{opacity:1;transform:translate(-50%,0);}
+
+.mbtn-ok{background:linear-gradient(135deg,#c9a24b,#a97f2c);color:#2c2214;}
+#backupText{white-space:pre-line;}
+
+@media (prefers-reduced-motion:reduce){
+  .studybar,.gbar-in,#toast{transition:none;}
+  .qitem.jump-hl{animation:none;outline:3px solid #cda349;}
+}
+
 @media (max-width:420px){
   .badge{width:54px;height:54px;font-size:24px;}
+  .statcell .sv{font-size:1.15rem;}
+  .goal-tab{padding:7px 11px;}
   .lvname{font-size:1.1rem;}
   .sess-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));}
 }
@@ -418,15 +532,16 @@ body{
     </div>
   </div>
 
+  <div class="statsrow" id="statsRow">
+    <div class="statcell"><div class="sv" id="statTotalDays">0</div><div class="sl">累計学習日数</div></div>
+    <div class="statcell"><div class="sv" id="statStreak">0</div><div class="sl">連続学習日数</div></div>
+    <div class="statcell"><div class="sv" id="statMaxStreak">0</div><div class="sl">最大連続学習日数</div></div>
+  </div>
+
   <div class="togglebar" id="toggleBar">
     <span class="lbl">🗺️ セッション一覧（冒険マップ）</span>
     <span class="cnt" id="toggleCnt">0 / 0 問正解</span>
     <span class="arrow" id="arrowIcon">▾</span>
-  </div>
-
-  <div class="togglebar" id="transferBar" style="margin-bottom:14px;">
-    <span class="lbl">🔄 データの引き継ぎ（他の端末へ）</span>
-    <span class="arrow">▸</span>
   </div>
 
   <div id="sessionPanel">
@@ -436,6 +551,22 @@ body{
     </div>
     <div class="sess-grid" id="sessGrid"></div>
     <button class="resetall-btn" id="resetAllBtn">⚠️ 全体の記録をリセットする</button>
+  </div>
+
+  <div class="goalcard" id="goalCard">
+    <div class="goal-head">
+      <span class="goal-title">🎯 学習目標</span>
+      <div class="goal-tabs" role="tablist" aria-label="目標の切り替え">
+        <button type="button" class="goal-tab" id="goalTabShort" role="tab" data-goal="short">短期目標</button>
+        <button type="button" class="goal-tab" id="goalTabLong" role="tab" data-goal="long">長期目標</button>
+      </div>
+    </div>
+    <div id="goalBody"></div>
+  </div>
+
+  <div class="togglebar" id="transferBar" style="margin-bottom:14px;">
+    <span class="lbl">🔄 データの引き継ぎ（他の端末へ）</span>
+    <span class="arrow">▸</span>
   </div>
 
   <div class="session-view" id="sessionView">
@@ -449,6 +580,27 @@ body{
 </div>
 
 <!-- confirm modal -->
+<div class="studybar" id="studyBar" aria-live="polite">
+  <div class="sb-row">
+    <div class="sb-info"><span class="sb-kind" id="sbKind">短期</span><span class="sb-text" id="sbText"></span></div>
+    <button type="button" class="sb-next" id="sbNext">次の未達成問題へ ▶</button>
+    <button type="button" class="sb-close" id="sbClose" aria-label="学習バーを閉じる">✕</button>
+  </div>
+  <div class="sb-bar"><div id="sbBarIn" style="width:0%"></div></div>
+</div>
+<div id="toast" role="status"></div>
+
+<div class="modal-overlay" id="backupModal">
+  <div class="modal-box">
+    <h3>💾 記録を書き出しましょう</h3>
+    <p id="backupText"></p>
+    <div class="modal-btns">
+      <button class="mbtn-cancel" id="backupLater">あとで（7日後）</button>
+      <button class="mbtn-ok" id="backupNow">今すぐ書き出す</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="confirmModal">
   <div class="modal-box">
     <h3 id="confirmTitle">本当にリセットしますか？</h3>
@@ -468,7 +620,7 @@ body{
 
     <div class="transfer-sec">
       <div class="transfer-sec-title">① ファイルで引き継ぐ（一番確実）</div>
-      <p class="transfer-note">記録をファイルに書き出し、そのファイルをメールやチャット、クラウドストレージなどで別の端末に送って読み込みます。</p>
+      <p class="transfer-note">記録をファイルに書き出し、そのファイルをメールやチャット、クラウドストレージなどで別の端末に送って読み込みます。ファイルには、正解・不正解の記録のほか、学習日数・目標設定・「後で解き直す」のチェックも含まれます（呪文には含まれません）。端末のデータ消失に備えて、1か月に1回を目安に書き出しておくと安心です。</p>
       <button class="gradebtn" id="exportFileBtn">📤 記録をファイルに書き出す</button>
       <button class="gradebtn" id="importFileBtn" style="background:linear-gradient(135deg,#3a3560,#2a2748);color:#fff;">📥 ファイルから記録を読み込む</button>
       <input type="file" id="importFileInput" accept="application/json,.json" style="display:none;">
@@ -1459,9 +1611,13 @@ function checkAnswer(si, ii){
   const {core} = splitSpeakerPrefix(a);
   const correct = isAnswerCorrect(userVal, core, !!SESSIONS[si].alt);
 
+  const prevMark = (progress[si]||{})[ii];
+  const gBefore = activeGoalStats();
   if(!progress[si]) progress[si] = {};
   progress[si][ii] = correct ? 'ok' : 'ng';
   saveProgress();
+  recordStudy(si, ii, prevMark, progress[si][ii]);
+  lastPos = [si, ii];
 
   // reveal the answer
   const box = document.getElementById('ans-'+si+'-'+ii);
@@ -1479,17 +1635,30 @@ function checkAnswer(si, ii){
     }
   }
 
-  if(correct){ playCorrectSound(); }
+  if(correct){ try{ playCorrectSound(); }catch(e){} }
 
   // refresh header stats / level (with level-up detection) and the session grid
   renderLevel(true);
   renderSessionGrid();
+
+  // 学習日数・目標・学習バーを更新
+  renderStats();
+  renderGoal();
+  renderStudyBar();
+  const gAfter = activeGoalStats();
+  if(gBefore && gAfter){
+    if(gAfter.complete && !gBefore.complete) showToast('🏆 目標達成！おめでとうございます！');
+    else if(gAfter.quota > 0 && gBefore.doneToday < gBefore.quota && gAfter.doneToday >= gAfter.quota) showToast('🎉 今日のノルマ達成！');
+  }
 }
 
 function renderAll(announce){
   renderLevel(!!announce);
+  renderStats();
   renderSessionGrid();
   renderSessionView();
+  renderGoal();
+  renderStudyBar();
 }
 
 /* =========================================================
@@ -1529,7 +1698,7 @@ let pendingReset = null;
 function confirmReset(kind, si){
   pendingReset = {kind, si};
   document.getElementById('confirmTitle').textContent = kind==='all' ? '全体の記録をリセットしますか？' : 'このセッションをリセットしますか？';
-  document.getElementById('confirmText').textContent = 'この操作を行うと、' + (kind==='all' ? '全てのセッションの' : 'このセッションの') + '記録は元に戻せません。本当によろしいですか？';
+  document.getElementById('confirmText').textContent = 'この操作を行うと、' + (kind==='all' ? '全てのセッションの' : 'このセッションの') + '記録は元に戻せません。' + (kind==='all' ? '（学習日数と目標設定は残ります）' : '') + '本当によろしいですか？';
   document.getElementById('confirmModal').classList.add('open');
 }
 /* Generic confirmation used by data-transfer (import file / apply passcode) —
@@ -1553,7 +1722,7 @@ document.getElementById('confirmOk').onclick = async ()=>{
     if(pendingReset.kind==='all'){ progress = {}; }
     else if(pendingReset.kind==='session'){ delete progress[pendingReset.si]; }
     else if(pendingReset.kind==='custom'){ pendingReset.action(); }
-    saveProgress();
+    saveAllData();
     // sync level silently (no fanfare on reset/import) then refresh everything
     renderAll(false);
   }
@@ -1634,7 +1803,7 @@ function decodePasscode(inputRaw){
 }
 
 function exportToFile(){
-  const payload = { app:'korean_quest', version:1, exportedAt:new Date().toISOString(), progress:progress };
+  const payload = { app:'korean_quest', version:2, exportedAt:new Date().toISOString(), progress:progress, flags:flags, study:study, goals:goals };
   const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const stamp = new Date();
@@ -1644,6 +1813,7 @@ function exportToFile(){
   a.href = url; a.download = fname;
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   setTimeout(()=>URL.revokeObjectURL(url), 3000);
+  noteExported();
 }
 
 function openTransferModal(){
@@ -1671,7 +1841,7 @@ document.getElementById('importFileInput').addEventListener('change', (e)=>{
       const data = JSON.parse(reader.result);
       if(!data || typeof data.progress !== 'object') throw new Error('invalid file');
       document.getElementById('transferModal').classList.remove('open');
-      confirmCustom('ファイルから記録を読み込みますか？','現在の記録は、このファイルの内容で上書きされます。本当によろしいですか？', ()=>{ progress = data.progress; });
+      confirmCustom('ファイルから記録を読み込みますか？','現在の記録は、このファイルの内容で上書きされます。本当によろしいですか？', ()=>{ progress = data.progress; applyImportedExtras(data); });
     }catch(err){
       alert('ファイルの形式が正しくないか、読み込みに失敗しました。書き出したファイルをそのまま使ってください。');
     }
@@ -1719,6 +1889,422 @@ document.getElementById('toggleBar').addEventListener('click', ()=>{
   arrow.classList.toggle('open', open);
 });
 
+
+/* =========================================================
+   学習日数・目標設定・バックアップのお知らせ
+   ========================================================= */
+const STUDY_KEY = "kr_wanshu2_study_v1";
+const GOAL_KEY = "kr_wanshu2_goals_v1";
+const BACKUP_KEY = "kr_wanshu2_backup_v1";
+const BACKUP_INTERVAL_DAYS = 30;
+const BACKUP_SNOOZE_DAYS = 7;
+
+let study = {days:{}};   // days: {"YYYY-MM-DD": {ok:["si-ii",...], lost:["si-ii",...]}}  ※キーがある日＝学習した日
+let goals = {active:'short', short:null, long:null}; // 目標: {from, to (0始まりのセッション番号), date:"YYYY-MM-DD"}
+let backupInfo = {};     // {firstSeen, lastExport, snoozeUntil} (ISO文字列)
+let studyMode = false;   // 「今日の学習を始める」を押すと true（下部の学習バーを表示）
+let lastPos = null;      // 最後に開いた/答えた問題 [si, ii]
+let goalEditing = false;
+let goalDraft = null;
+
+function $(id){ return document.getElementById(id); }
+function pad2(n){ return String(n).padStart(2,'0'); }
+function dateKey(d){ d = d || new Date(); return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate()); }
+function parseKey(k){
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(k || '');
+  return m ? new Date(+m[1], +m[2]-1, +m[3]) : null;
+}
+function dayDiff(aKey, bKey){ // b - a (日)
+  const a = parseKey(aKey), b = parseKey(bKey);
+  if(!a || !b) return 0;
+  return Math.round((b - a) / 86400000);
+}
+function addDaysKey(key, n){ const d = parseKey(key); d.setDate(d.getDate()+n); return dateKey(d); }
+function fmtDateJp(key){
+  const d = parseKey(key); if(!d) return '';
+  return (d.getMonth()+1)+'月'+d.getDate()+'日（'+'日月火水木金土'[d.getDay()]+'）';
+}
+
+/* ---------- 読み込み・保存 ---------- */
+function sanitizeStudy(o){
+  const out = {days:{}};
+  if(o && typeof o.days === 'object' && o.days){
+    Object.keys(o.days).forEach(k=>{
+      if(!parseKey(k)) return;
+      const v = o.days[k] || {};
+      out.days[k] = {
+        ok: Array.isArray(v.ok) ? v.ok.filter(x=>typeof x==='string') : [],
+        lost: Array.isArray(v.lost) ? v.lost.filter(x=>typeof x==='string') : []
+      };
+    });
+  }
+  return out;
+}
+function sanitizeGoal(g){
+  if(!g || typeof g !== 'object') return null;
+  const from = parseInt(g.from,10), to = parseInt(g.to,10);
+  if(!(from >= 0 && to >= from && to < SESSIONS.length)) return null;
+  if(!parseKey(g.date)) return null;
+  return {from:from, to:to, date:g.date};
+}
+function sanitizeGoals(o){
+  o = (o && typeof o === 'object') ? o : {};
+  return {active: o.active==='long' ? 'long' : 'short', short: sanitizeGoal(o.short), long: sanitizeGoal(o.long)};
+}
+function saveStudy(){ try{ localStorage.setItem(STUDY_KEY, JSON.stringify(study)); }catch(e){} }
+function saveGoals(){ try{ localStorage.setItem(GOAL_KEY, JSON.stringify(goals)); }catch(e){} }
+function saveBackupInfo(){ try{ localStorage.setItem(BACKUP_KEY, JSON.stringify(backupInfo)); }catch(e){} }
+function saveAllData(){ saveProgress(); saveFlags(); saveStudy(); saveGoals(); }
+function loadGoalData(){
+  try{ const r = localStorage.getItem(STUDY_KEY); study = sanitizeStudy(r ? JSON.parse(r) : null); }catch(e){ study = {days:{}}; }
+  try{ const r = localStorage.getItem(GOAL_KEY); goals = sanitizeGoals(r ? JSON.parse(r) : null); }catch(e){ goals = sanitizeGoals(null); }
+  try{
+    const r = localStorage.getItem(BACKUP_KEY);
+    backupInfo = r ? JSON.parse(r) : {};
+    if(!backupInfo || typeof backupInfo !== 'object') backupInfo = {};
+  }catch(e){ backupInfo = {}; }
+  if(!backupInfo.firstSeen){ backupInfo.firstSeen = new Date().toISOString(); saveBackupInfo(); }
+}
+
+/* ---------- 学習日の記録 ---------- */
+function recordStudy(si, ii, prev, now){
+  const k = dateKey();
+  if(!study.days[k]) study.days[k] = {ok:[], lost:[]};
+  const d = study.days[k];
+  const id = si+'-'+ii;
+  const rm = arr=>{ const i = arr.indexOf(id); if(i >= 0) arr.splice(i,1); };
+  if(now==='ok' && prev!=='ok'){
+    // 今日新しく正解（朝の時点で正解済みだったのに間違えて、また正解した場合は数え直さない）
+    if(d.lost.indexOf(id) >= 0) rm(d.lost);
+    else if(d.ok.indexOf(id) < 0) d.ok.push(id);
+  }else if(now!=='ok' && prev==='ok'){
+    if(d.ok.indexOf(id) >= 0) rm(d.ok);
+    else if(d.lost.indexOf(id) < 0) d.lost.push(id);
+  }
+  saveStudy();
+}
+function studyStats(){
+  const keys = Object.keys(study.days).sort();
+  let max = 0, run = 0, prevK = null;
+  keys.forEach(k=>{
+    run = (prevK && dayDiff(prevK,k)===1) ? run+1 : 1;
+    if(run > max) max = run;
+    prevK = k;
+  });
+  // 連続日数：今日まだ学習していなくても、昨日までの連続は維持する
+  const today = dateKey();
+  let cur = 0, k = study.days[today] ? today : addDaysKey(today,-1);
+  while(study.days[k]){ cur++; k = addDaysKey(k,-1); }
+  return {total: keys.length, cur: cur, max: Math.max(max, cur)};
+}
+function renderStats(){
+  const s = studyStats();
+  $('statTotalDays').textContent = s.total;
+  $('statStreak').textContent = s.cur;
+  $('statMaxStreak').textContent = s.max;
+}
+
+/* ---------- 目標の計算 ---------- */
+function isOk(si, ii){ return ((progress[si]||{})[ii]) === 'ok'; }
+function goalTotal(g){
+  let t = 0; for(let si=g.from; si<=g.to; si++) t += SESSIONS[si].items.length; return t;
+}
+function goalOkCount(g){
+  let n = 0; for(let si=g.from; si<=g.to; si++) n += sessStats(si).ok; return n;
+}
+function goalStats(g){
+  const today = dateKey();
+  const total = goalTotal(g), ok = goalOkCount(g);
+  const remaining = total - ok;
+  const rec = study.days[today] || {ok:[], lost:[]};
+  const parse = id=>{ const p = id.split('-'); return [parseInt(p[0],10), parseInt(p[1],10)]; };
+  const inRange = si=> si >= g.from && si <= g.to;
+  const doneToday = rec.ok.filter(id=>{ const [si,ii] = parse(id); return inRange(si) && isOk(si,ii); }).length;
+  const lostToday = rec.lost.filter(id=>{ const [si,ii] = parse(id); return inRange(si) && !isOk(si,ii); }).length;
+  // 今日の朝の時点での残り問題数（今日のノルマは1日の間は変わらない）
+  const remainingAtStart = Math.max(0, remaining + doneToday - lostToday);
+  const diff = dayDiff(today, g.date);
+  const overdue = diff < 0;
+  const daysLeft = Math.max(1, diff);
+  const quota = remainingAtStart > 0 ? Math.ceil(remainingAtStart / daysLeft) : 0;
+  return {
+    total, ok, remaining, doneToday, quota, daysLeft, diff, overdue,
+    complete: remaining === 0,
+    overallPct: total ? Math.round(ok/total*100) : 0,
+    todayPct: quota > 0 ? Math.min(100, Math.round(doneToday/quota*100)) : 100
+  };
+}
+function activeGoalStats(){
+  const g = goals[goals.active];
+  return g ? goalStats(g) : null;
+}
+function findNextUnsolved(g, after){
+  const un = [];
+  for(let si=g.from; si<=g.to; si++){
+    SESSIONS[si].items.forEach((_,ii)=>{ if(!isOk(si,ii)) un.push([si,ii]); });
+  }
+  if(un.length === 0) return null;
+  if(after){
+    const nx = un.find(([si,ii])=> si > after[0] || (si === after[0] && ii > after[1]));
+    if(nx) return nx;
+  }
+  return un[0];
+}
+
+/* ---------- ジャンプ・学習の継続 ---------- */
+function jumpToQuestion(si, ii){
+  lastPos = [si, ii];
+  if(currentSession !== si){ currentSession = si; renderAll(false); }
+  else{ renderSessionGrid(); renderGoal(); renderStudyBar(); }
+  const el = $('qitem-'+si+'-'+ii);
+  if(el){
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+    el.classList.remove('jump-hl'); void el.offsetWidth; el.classList.add('jump-hl');
+    const inp = el.querySelector('.ans-input');
+    if(inp) setTimeout(()=>{ try{ inp.focus({preventScroll:true}); }catch(e){} }, 500);
+  }
+}
+function startToday(){
+  const g = goals[goals.active];
+  if(!g) return;
+  studyMode = true;
+  const t = findNextUnsolved(g, null);
+  if(!t){ renderStudyBar(); return; }
+  jumpToQuestion(t[0], t[1]);
+}
+function nextQuestion(){
+  const g = goals[goals.active];
+  if(!g) return;
+  const t = findNextUnsolved(g, lastPos);
+  if(!t){ renderStudyBar(); return; }
+  jumpToQuestion(t[0], t[1]);
+}
+function renderStudyBar(){
+  const bar = $('studyBar');
+  const g = goals[goals.active];
+  if(!studyMode || !g){
+    bar.classList.remove('show'); bar.classList.remove('done');
+    document.body.classList.remove('has-studybar');
+    return;
+  }
+  const s = goalStats(g);
+  $('sbKind').textContent = goals.active==='short' ? '短期' : '長期';
+  let text, done = false;
+  if(s.complete){ text = '🏆 目標達成！'; done = true; }
+  else if(s.quota > 0 && s.doneToday >= s.quota){ text = '🎉 今日のノルマ達成！（'+s.doneToday+' / '+s.quota+'問）'; done = true; }
+  else{ text = '今日 '+s.doneToday+' / '+s.quota+' 問'; }
+  $('sbText').textContent = text;
+  $('sbNext').style.display = s.complete ? 'none' : '';
+  $('sbBarIn').style.width = s.todayPct+'%';
+  bar.classList.toggle('done', done);
+  bar.classList.add('show');
+  document.body.classList.add('has-studybar');
+}
+function showToast(msg){
+  const t = $('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+/* ---------- 目標カードの描画 ---------- */
+function sessOptionLabel(i){
+  const t = SESSIONS[i].t;
+  return 'Q'+(i+1)+'　'+(t.length > 18 ? t.slice(0,18)+'…' : t);
+}
+function renderGoal(){
+  const body = $('goalBody');
+  if(!body) return;
+  const kind = goals.active;
+  $('goalTabShort').classList.toggle('active', kind==='short');
+  $('goalTabLong').classList.toggle('active', kind==='long');
+  $('goalTabShort').setAttribute('aria-selected', kind==='short');
+  $('goalTabLong').setAttribute('aria-selected', kind==='long');
+  const label = kind==='short' ? '短期目標' : '長期目標';
+  const g = goals[kind];
+
+  if(goalEditing){ body.innerHTML = buildGoalForm(kind, !!g); updateGoalPreview(); return; }
+
+  if(!g){
+    body.innerHTML =
+      '<div class="goal-empty">'+label+'はまだ設定されていません。<br>範囲（Q〇〜Q△）と到達目標日を決めると、今日やる問題数が自動で計算されます。</div>'+
+      '<button type="button" class="goal-btn primary" style="width:100%" data-goal-act="edit">＋ '+label+'を設定する</button>';
+    return;
+  }
+
+  const s = goalStats(g);
+  let dateInfo;
+  if(s.complete) dateInfo = '';
+  else if(s.overdue) dateInfo = '・<span class="warn">期限を過ぎています</span>';
+  else if(s.diff === 0) dateInfo = '・<span class="warn">今日が期限です</span>';
+  else dateInfo = '・あと'+s.diff+'日';
+
+  let h = '';
+  h += '<div class="goal-range">Q'+(g.from+1)+' 〜 Q'+(g.to+1)+'<span>全'+s.total+'問</span></div>';
+  h += '<div class="goal-date">到達目標日　'+fmtDateJp(g.date)+dateInfo+'</div>';
+
+  if(s.complete){
+    h += '<div class="goal-note win">🏆 この範囲はすべて正解しました。おめでとうございます！新しい目標を設定しましょう。</div>';
+  }else{
+    if(s.overdue){
+      h += '<div class="goal-note warn">⚠️ 到達目標日を過ぎています。残りすべてを今日のノルマにしています。目標日を設定し直しましょう。</div>';
+    }
+    h += '<div class="goal-quota"><div class="q-main">今日のノルマ<b>'+s.quota+'</b>問</div>'+
+         '<div class="q-sub">範囲の残り '+s.remaining+'問 ／ 残り'+s.daysLeft+'日</div></div>';
+  }
+
+  h += '<div class="gbar-row"><div class="gbar-label"><span>今日の目標達成度</span><b>'+
+       (s.quota > 0 ? s.doneToday+' / '+s.quota+' 問' : (s.complete ? '達成済み' : '—'))+'</b></div>'+
+       '<div class="gbar-line"><div class="gbar"><div class="gbar-in today" style="width:'+s.todayPct+'%"></div></div><div class="gbar-pct">'+s.todayPct+'%</div></div></div>';
+  h += '<div class="gbar-row"><div class="gbar-label"><span>全体の目標達成度</span><b>'+s.ok+' / '+s.total+' 問</b></div>'+
+       '<div class="gbar-line"><div class="gbar"><div class="gbar-in all" style="width:'+s.overallPct+'%"></div></div><div class="gbar-pct">'+s.overallPct+'%</div></div></div>';
+
+  h += '<div class="goal-actions">'+
+       '<button type="button" class="goal-btn primary" data-goal-act="start"'+(s.complete?' disabled':'')+'>▶ 今日の学習を始める</button>'+
+       '<button type="button" class="goal-btn" data-goal-act="edit">✏️ 編集</button></div>';
+  body.innerHTML = h;
+}
+
+function buildGoalForm(kind, exists){
+  const n = SESSIONS.length;
+  let optFrom = '', optTo = '';
+  for(let i=0;i<n;i++){
+    optFrom += '<option value="'+i+'"'+(goalDraft.from===i?' selected':'')+'>'+escapeHtml(sessOptionLabel(i))+'</option>';
+    optTo   += '<option value="'+i+'"'+(goalDraft.to===i?' selected':'')+'>'+escapeHtml(sessOptionLabel(i))+'</option>';
+  }
+  const today = dateKey();
+  let h = '<div class="goal-form">';
+  h += '<label>範囲のはじめ<select id="gfFrom">'+optFrom+'</select></label>';
+  h += '<label>範囲のおわり<select id="gfTo">'+optTo+'</select></label>';
+  h += '<label>到達目標日（カレンダーから選ぶ）<input type="date" id="gfDate" min="'+today+'" value="'+escapeHtml(goalDraft.date||'')+'"></label>';
+  h += '<div class="goal-preview" id="gfPreview"></div>';
+  h += '<div class="goal-error" id="gfError"></div>';
+  h += '<div class="goal-actions">'+
+       '<button type="button" class="goal-btn primary" data-goal-act="save">保存する</button>'+
+       '<button type="button" class="goal-btn" data-goal-act="cancel">キャンセル</button>'+
+       (exists ? '<button type="button" class="goal-btn danger" data-goal-act="delete">削除</button>' : '')+
+       '</div></div>';
+  return h;
+}
+function updateGoalPreview(){
+  const box = $('gfPreview');
+  if(!box || !goalDraft) return;
+  const g = {from:goalDraft.from, to:goalDraft.to};
+  if(!(g.to >= g.from)){ box.textContent = '終わりは、はじめ以降のQを選んでください。'; return; }
+  const total = goalTotal(g), ok = goalOkCount(g), remaining = total - ok;
+  const today = dateKey();
+  if(!parseKey(goalDraft.date)){ box.innerHTML = '範囲 <b>'+total+'問</b>（未達成 '+remaining+'問）。到達目標日を選んでください。'; return; }
+  const diff = dayDiff(today, goalDraft.date);
+  if(diff < 0){ box.textContent = '到達目標日は今日以降を選んでください。'; return; }
+  const days = Math.max(1, diff);
+  box.innerHTML = '範囲 <b>'+total+'問</b>（未達成 '+remaining+'問）／ 残り <b>'+days+'日</b> → 1日あたり <b>'+Math.ceil(remaining/days)+'問</b>';
+}
+function openGoalEditor(){
+  const kind = goals.active;
+  const g = goals[kind];
+  const today = dateKey();
+  goalDraft = g ? {from:g.from, to:g.to, date:g.date}
+                : {from:0, to:Math.min(SESSIONS.length-1, kind==='short' ? 2 : SESSIONS.length-1), date:addDaysKey(today, kind==='short' ? 7 : 30)};
+  goalEditing = true;
+  renderGoal();
+}
+function saveGoalFromForm(){
+  const err = $('gfError');
+  const showErr = msg=>{ err.textContent = msg; err.style.display = 'block'; };
+  if(!(goalDraft.to >= goalDraft.from)) return showErr('範囲の「おわり」は「はじめ」以降のQを選んでください。');
+  if(!parseKey(goalDraft.date)) return showErr('到達目標日をカレンダーから選んでください。');
+  if(dayDiff(dateKey(), goalDraft.date) < 0) return showErr('到達目標日は今日以降を選んでください。');
+  goals[goals.active] = {from:goalDraft.from, to:goalDraft.to, date:goalDraft.date};
+  saveGoals();
+  goalEditing = false; goalDraft = null;
+  renderGoal(); renderStudyBar();
+}
+function switchGoal(kind){
+  if(kind !== 'short' && kind !== 'long') return;
+  goals.active = kind;
+  saveGoals();
+  goalEditing = false; goalDraft = null;
+  renderGoal(); renderStudyBar();
+}
+$('goalCard').addEventListener('click', e=>{
+  const t = e.target.closest('[data-goal],[data-goal-act]');
+  if(!t || t.disabled) return;
+  if(t.dataset.goal){ switchGoal(t.dataset.goal); return; }
+  const act = t.dataset.goalAct;
+  if(act==='edit') openGoalEditor();
+  else if(act==='cancel'){ goalEditing = false; goalDraft = null; renderGoal(); }
+  else if(act==='save') saveGoalFromForm();
+  else if(act==='start') startToday();
+  else if(act==='delete'){
+    const kind = goals.active;
+    confirmCustom(
+      (kind==='short' ? '短期目標' : '長期目標')+'を削除しますか？',
+      '設定した範囲と到達目標日が消えます（正解・不正解の記録は消えません）。よろしいですか？',
+      ()=>{ goals[kind] = null; goalEditing = false; goalDraft = null; }
+    );
+  }
+});
+$('goalCard').addEventListener('change', e=>{
+  if(!goalDraft) return;
+  const id = e.target.id;
+  if(id==='gfFrom'){
+    goalDraft.from = parseInt(e.target.value,10);
+    if(goalDraft.to < goalDraft.from){ goalDraft.to = goalDraft.from; $('gfTo').value = String(goalDraft.to); }
+  }else if(id==='gfTo'){
+    goalDraft.to = parseInt(e.target.value,10);
+  }else if(id==='gfDate'){
+    goalDraft.date = e.target.value;
+  }else return;
+  $('gfError').style.display = 'none';
+  updateGoalPreview();
+});
+$('sbNext').addEventListener('click', nextQuestion);
+$('sbClose').addEventListener('click', ()=>{ studyMode = false; renderStudyBar(); });
+
+/* ---------- JSON書き出しのお知らせ（約1か月ごと） ---------- */
+function noteExported(){
+  backupInfo.lastExport = new Date().toISOString();
+  delete backupInfo.snoozeUntil;
+  saveBackupInfo();
+}
+function checkBackupReminder(){
+  const hasData = Object.keys(progress).length > 0 || Object.keys(study.days).length > 0;
+  if(!hasData) return;
+  const now = Date.now();
+  if(backupInfo.snoozeUntil && now < Date.parse(backupInfo.snoozeUntil)) return;
+  const base = Date.parse(backupInfo.lastExport || backupInfo.firstSeen);
+  if(!isFinite(base)) return;
+  const days = Math.floor((now - base) / 86400000);
+  if(days < BACKUP_INTERVAL_DAYS) return;
+  $('backupText').textContent =
+    (backupInfo.lastExport
+      ? '最後に記録を書き出してから '+days+'日 たちました。'
+      : 'この端末の記録を、まだ一度も書き出していません（利用開始から '+days+'日）。')+
+    '\nブラウザのデータが消えると、学習の記録も失われてしまいます。JSONファイルに書き出して、大切に保管しておきましょう。';
+  $('backupModal').classList.add('open');
+}
+$('backupNow').addEventListener('click', ()=>{
+  exportToFile();
+  $('backupModal').classList.remove('open');
+});
+$('backupLater').addEventListener('click', ()=>{
+  backupInfo.snoozeUntil = new Date(Date.now() + BACKUP_SNOOZE_DAYS*86400000).toISOString();
+  saveBackupInfo();
+  $('backupModal').classList.remove('open');
+});
+
+/* ファイル読み込み時に、学習日数・目標・チェックも復元する（古い形式のファイルは何も変えない） */
+function applyImportedExtras(data){
+  if(data.study && typeof data.study === 'object') study = sanitizeStudy(data.study);
+  if(data.goals && typeof data.goals === 'object') goals = sanitizeGoals(data.goals);
+  if(data.flags && typeof data.flags === 'object') flags = data.flags;
+}
+
+/* 日付が変わったあとにアプリへ戻ったとき、表示を更新する */
+document.addEventListener('visibilitychange', ()=>{
+  if(!document.hidden){ renderStats(); renderGoal(); renderStudyBar(); }
+});
+
 /* =========================================================
    Init
    ========================================================= */
@@ -1726,6 +2312,7 @@ document.getElementById('toggleBar').addEventListener('click', ()=>{
   setupSessionViewDelegation();
   primeVoices();
   await loadProgress();
+  loadGoalData();
   renderAll();
   // Auto open session list on first load if nothing started
   const {ok} = overallStats();
@@ -1733,6 +2320,7 @@ document.getElementById('toggleBar').addEventListener('click', ()=>{
     document.getElementById('sessionPanel').classList.add('open');
     document.getElementById('arrowIcon').classList.add('open');
   }
+  setTimeout(checkBackupReminder, 700);
 })();
 </script>
 </body>
